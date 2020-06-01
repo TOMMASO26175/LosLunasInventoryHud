@@ -92,7 +92,7 @@ end
 
 RegisterNetEvent('disc-inventoryhud:refreshInventory')
 AddEventHandler('disc-inventoryhud:refreshInventory', function()
-    Citizen.Wait(250)
+    Citizen.Wait(50)
     refreshPlayerInventory()
     if secondInventory ~= nil then
         refreshSecondaryInventory()
@@ -252,11 +252,24 @@ end
 
 function playStealOrSearchAnimation(data)
     if data.originTier.name == 'player' and data.destinationTier.name == 'player' then
-        local playerPed = GetPlayerPed(-1)
-        if not IsEntityPlayingAnim(playerPed, 'random@mugging4', 'agitated_loop_a', 3) then
-            ESX.Streaming.RequestAnimDict('random@mugging4', function()
-                --- TaskPlayAnim(playerPed, 'random@mugging4', 'agitated_loop_a', 8.0, -8, -1, 48, 0, 0, 0, 0)
-            end)
+        if data.originOwner  ~= data.destinationOwner then
+            local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+            local playerPed = GetPlayerPed(-1)
+            if not IsEntityPlayingAnim(playerPed, 'random@mugging4', 'agitated_loop_a', 3) then
+                -- ESX.Streaming.RequestAnimDict('random@mugging4', function()
+                --     --- TaskPlayAnim(playerPed, 'random@mugging4', 'agitated_loop_a', 8.0, -8, -1, 48, 0, 0, 0, 0)
+                -- end)
+                local searchPlayerPed = GetPlayerPed(closestPlayer)
+                if IsEntityPlayingAnim(searchPlayerPed, 'random@mugging3', 'handsup_standing_base', 3) then
+                    ESX.Streaming.RequestAnimDict('mp_common', function()
+                        TaskPlayAnim(playerPed, 'mp_common', 'givetake1_b', 8.0, -8, -1, 48, 0, 0, 0, 0)
+                    end)
+                else
+                    ESX.Streaming.RequestAnimDict('random@domestic', function()
+                        TaskPlayAnim(playerPed, 'random@domestic', 'pickup_low', 8.0, -8, -1, 48, 0, 0, 0, 0)
+                    end)
+                end
+            end
         end
     end
 end

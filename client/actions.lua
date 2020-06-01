@@ -22,7 +22,7 @@ RegisterNUICallback('RicaricaAmmo', function(data)
     Citizen.Trace(data.item.id) --nome es ammo_pistol data.item è una tabella non so quali siano le colonne 
     TriggerEvent('disc-inventoryhud:refreshInventory')
      data.item.msg = _U('used')
-     data.item.qty = 2
+     data.item.qty = 1
      TriggerEvent('disc-inventoryhud:showItemUse', {	--messaggio oggetto usato
           data.item
       })
@@ -36,6 +36,7 @@ local keys = {  --1,2,3,4,5
 Citizen.CreateThread(function() --fa vedere la barra rapida e fa usare gli oggetti
     while true do
         Citizen.Wait(0)
+        SetCamEffect(0)
         BlockWeaponWheelThisFrame()
         HideHudComponentThisFrame(19)
         HideHudComponentThisFrame(20)
@@ -74,7 +75,7 @@ function UseItem(slot)
             TriggerServerEvent('disc-inventoryhud:notifyImpendingRemoval', item, 1)
             TriggerServerEvent("esx:useItem", item.id)
             item.msg = _U('used')
-            item.qty = 2    --deve essere uguale a quello sopra
+            item.qty = 1    --deve essere uguale a quello sopra
              TriggerEvent('disc-inventoryhud:showItemUse', {
                  item,
              })

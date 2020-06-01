@@ -23,6 +23,8 @@ Citizen.CreateThread(function()
     while not ESXLoaded do
         Citizen.Wait(10)
     end
+
+    print("Inizializzando Negozi")
     for k, v in pairs(Config.Shops) do
         for val, coords in pairs(v.coords) do
             local marker = {

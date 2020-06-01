@@ -52,6 +52,9 @@ Citizen.CreateThread(function()
             dropSecondaryInventory.owner = getOwnerFromCoords(vector3(x, y, floorZ))
             openInventory(dropSecondaryInventory)
         end
+        if IsControlJustReleased(0, 73) then    --when putting hands up
+            SetCurrentPedWeapon(GetPlayerPed(-1), GetHashKey('WEAPON_UNARMED'), true)
+        end
     end
 end
 )
