@@ -193,7 +193,7 @@ Config.Ammo = {
     {
         name = 'ammo_pistol',
         weapons = {
-            'WEAPON_PISTOL',
+            `WEAPON_PISTOL`,
             'WEAPON_APPISTOL',
             'WEAPON_SNSPISTOL',
             'WEAPON_COMBATPISTOL',
@@ -209,9 +209,9 @@ Config.Ammo = {
         name = 'ammo_shotgun',
         weapons = {
             'WEAPON_ASSAULTSHOTGUN',
-	    'WEAPON_AUTOSHOTGUN',
+	        'WEAPON_AUTOSHOTGUN',
             'WEAPON_BULLPUPSHOTGUN',
-	    'WEAPON_DBSHOTGUN',
+	        'WEAPON_DBSHOTGUN',
             'WEAPON_HEAVYSHOTGUN',
             'WEAPON_PUMPSHOTGUN',
             'WEAPON_SAWNOFFSHOTGUN'
@@ -222,7 +222,7 @@ Config.Ammo = {
         name = 'ammo_smg',
         weapons = {
             'WEAPON_ASSAULTSMG',
-	    'WEAPON_MICROSMG',
+	        'WEAPON_MICROSMG',
             'WEAPON_MINISMG',
             'WEAPON_SMG'
         },
@@ -232,11 +232,11 @@ Config.Ammo = {
         name = 'ammo_rifle',
         weapons = {
             'WEAPON_ADVANCEDRIFLE',
-	    'WEAPON_ASSAULTRIFLE',
+	        'WEAPON_ASSAULTRIFLE',
             'WEAPON_BULLPUPRIFLE',
             'WEAPON_CARBINERIFLE',
-	    'WEAPON_SPECIALCARBINE',
-	    'WEAPON_COMPACTRIFLE'
+	        'WEAPON_SPECIALCARBINE',
+	        'WEAPON_COMPACTRIFLE'
         },
         quantity = 1
     },
@@ -244,7 +244,7 @@ Config.Ammo = {
         name = 'ammo_sniper',
         weapons = {
             'WEAPON_SNIPERRIFLE',
-	    'WEAPON_HEAVYSNIPER',
+	        'WEAPON_HEAVYSNIPER',
             'WEAPON_MARKSMANRIFLE'
         },
         quantity = 1

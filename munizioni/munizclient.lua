@@ -18,8 +18,8 @@ end)
 
 weaponhashes = {
     {
-    weapon = "Pistola",
-    whash = "453432689"
+        weapon = "Pistola",
+        whash = "453432689"
     },
     {
         weapon = "Coltello",
@@ -69,15 +69,16 @@ AddEventHandler('ricaricaammo', function(ammo)
     local weapon
 
     local found,currentWeapon = GetCurrentPedWeapon(playerPed, true)    --in found c'è bool in currentweapon c'è l hash
-
     if found then
         for _, v in pairs(ammo.weapons) do
             if currentWeapon == v then
                 weapon = v  --ritorna l'arma appartenente al campo di munizioni
+                --print(v)
                 break
             end
         end
-        Citizen.Trace(weapon)
+        --print(weapon)
+        --Citizen.Trace(weapon)
         if weapon ~= nil then
             local pedAmmo = GetAmmoInPedWeapon(playerPed, weapon)   --munizioni nella pistola
             local newAmmo = pedAmmo + ammo.quantity --munizioni nella pistola + munizioni decise da ricaricare
@@ -95,8 +96,10 @@ AddEventHandler('ricaricaammo', function(ammo)
                 exports['mythic_notify']:SendAlert('error', 'Munizioni massime')
             end
 		else
-			exports['mythic_notify']:SendAlert('error', 'Non hai un arma selezionata')
+			exports['mythic_notify']:SendAlert('error', 'Arma non trovata')
         end
+    else
+        exports['mythic_notify']:SendAlert('error', 'Non hai un arma selezionata')
     end
 end)
 
