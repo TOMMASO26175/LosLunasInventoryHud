@@ -15,32 +15,32 @@ AddEventHandler('disc-inventoryhud:RegisterInventory', function(inventory)
     end
 
     if inventory.getInventory == nil then
-        print('Registering Default getInventory')
+        --print('Registering Default getInventory')
         inventory.getInventory = function(identifier, cb)
             getInventory(identifier, inventory.name, cb)
         end
     end
 
     if inventory.applyToInventory == nil then
-        print('Registering Default applyToInventory')
+        --print('Registering Default applyToInventory')
         inventory.applyToInventory = function(identifier, f)
             applyToInventory(identifier, inventory.name, f)
         end
     end
 
     if inventory.saveInventory == nil then
-        print('Registering Default saveInventory')
+        --print('Registering Default saveInventory')
         inventory.saveInventory = function(identifier, toSave)
-            if table.length(toSave) > 0 then
+            --if table.length(toSave) > 0 then
                 saveInventory(identifier, inventory.name, toSave)
-            else
-                deleteInventory(identifier, inventory.name)
-            end
+            --else
+                --deleteInventory(identifier, inventory.name)
+            --end
         end
     end
 
     if inventory.getDisplayInventory == nil then
-        print('Registering Default getDisplayInventory')
+        --print('Registering Default getDisplayInventory')
         inventory.getDisplayInventory = function(identifier, cb, source)
             getDisplayInventory(identifier, inventory.name, cb, source)
         end
@@ -75,15 +75,17 @@ RegisterCommand('test', function(source, args, raw)
     print(getCoordsFromOwner(str))
 end)
 
-AddEventHandler("onResourceStop", function(resource)
-    if resource == GetCurrentResourceName() then
-        saveInventories()
-    end
-end)
+-- AddEventHandler("onResourceStop", function(resource)
+--     if resource == GetCurrentResourceName() then
+--         saveInventories()
+--     end
+-- end)
 
 AddEventHandler('esx:playerLoaded', function(data)
     local player = ESX.GetPlayerFromId(data)
-    ensurePlayerInventory(player)
+    --ensurePlayerInventory(player)
+    loadInventory(player.identifier, 'player', function()
+    end)
 end)
 
 Citizen.CreateThread(function()
