@@ -140,12 +140,13 @@ AddEventHandler('esx:onRemoveInventoryItem', function(source, item, count)
                 end
             end
         end
-        removeItemFromInventory(item, count, inventory)	--boh
+        removeItemFromInventory(item, count, inventory)
         TriggerClientEvent('disc-inventoryhud:refreshInventory', source)
     end)
 end)
 
 AddEventHandler('esx:onAddInventoryItem', function(source, esxItem, count)
+    additionLocked = true
     local player = ESX.GetPlayerFromId(source)
     TriggerClientEvent('disc-inventoryhud:showItemUse', source, {
         { id = esxItem.name, label = esxItem.label, qty = count, msg = _U('added') }
@@ -156,6 +157,7 @@ AddEventHandler('esx:onAddInventoryItem', function(source, esxItem, count)
                 if addingItem.id == esxItem.name and addingItem.count == count then
                     if addingItem.block then
                         impendingAdditions[source][k] = nil
+                        additionLocked = false
                         return
                     end
                 end

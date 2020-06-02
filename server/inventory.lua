@@ -627,8 +627,10 @@ function removeItemFromInventory(item, count, inventory)
     end
 end
 
-function addToInventory(item, type, inventory)
-    local max = getItemDataProperty(item.name, 'max') or 100
+function addToInventory(item, type, inventory, max)
+    if max == -1 then
+		max = 9999
+	end
     local toAdd = item.count
     toAdd = AttemptMerge(item, inventory, toAdd, max)
     while toAdd > 0 do
