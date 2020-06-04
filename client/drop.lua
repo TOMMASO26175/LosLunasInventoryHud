@@ -43,6 +43,6 @@ end)
 
 RegisterNetEvent('disc-inventoryhud:updateDrops')
 AddEventHandler('disc-inventoryhud:updateDrops', function(newDrops)
-    print('Receive Drops')
+    --print('Receive Drops')
     serverDrops = newDrops
 end)

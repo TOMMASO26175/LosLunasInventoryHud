@@ -15,9 +15,9 @@ MySQL.ready(function()
 end)
 
 function updateDrops()
-    print('Fetching')
+    --print('Fetching')
     MySQL.Async.fetchAll('SELECT * FROM disc_inventory WHERE type = \'drop\'', {}, function(results)
-        print('Fetched ' .. tostring(#results))
+        --print('Fetched ' .. tostring(#results))
         drops = {}
         for k, v in pairs(results) do
             drops[v.owner] = json.decode(v.data)

@@ -61,6 +61,10 @@ files {
     'html/js/inventory.js',
     'html/js/config.js',
     'html/css/jquery-ui.min.css',
+    --NEW JQUERYCSS
+    'html/css/jquery-ui.structure.min.css',
+    'html/css/jquery-ui.theme.min.css',
+    'html/css/images/*.png',
     'html/css/bootstrap.min.css',
     'html/js/jquery.min.js',
     'html/js/jquery-ui.min.js',

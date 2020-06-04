@@ -76,7 +76,7 @@ body {
             #arma{
                 z-index: 2000;
                 display: block;
-                border: solid white;
+                border: solid $border;
                 border-width: 1px 1px;
                 border-radius: 0;
                 background: $primary;
@@ -88,6 +88,115 @@ body {
                 &:hover{
                     background: blue;  
                     border-width: 0;  
+                }
+            }
+            .ricaricahud{
+                position: relative;
+                z-index: 2000;
+                display: none;
+                border: solid $border;
+                border-width: 1px 1px;
+                border-radius: 0;       
+                background: $primary;
+                color: white;
+                //width: auto;
+                width: 300px;
+                padding: 20px;
+                height: 200px;
+
+                #quantita{
+                    z-index: 2000;
+                }
+                // #range{
+                //     #custom-handle{
+                //         appearance: none;
+                //         width: 25px; /* Set a specific slider handle width */
+                //         height: 25px; /* Slider handle height */
+                //         background: white; /* Green background */
+                //         border-radius: 20px;
+                //         border-color:black;
+                //     }
+                //     #slidercolored{
+                //         background: #00008b;
+                //         appearance: none;
+                //         width: 100%; /* Full-width */
+                //         //height: 25px; /* Specified height */
+                //     }
+                // }
+                // #spinners{
+                //     //background: red;
+                // }
+                // .ui-slider{
+
+                //     & .ui-slider-handle{
+                //         appearance: none;
+                //         width: 25px; /* Set a specific slider handle width */
+                //         height: 25px; /* Slider handle height */
+                //         background: white; /* Green background */
+                //         border-radius: 20px;
+                //         border-color:black;    
+                //     }
+                //     & .ui-slider-range{
+                //         background: #00008b;
+                //         appearance: none;
+                //         width: 100%; /* Full-width */                       
+                //     }
+                // }
+                .ui-slider {
+                    position: relative;
+                    background: #1d98d1;
+                    appearance: none;
+                    width: 100%; /* Full-width */  
+                    top: 5px;  
+
+                    & .ui-slider-handle {
+                         appearance: none;
+                         width: 20px; /* Set a specific slider handle width */
+                         height: 20px; /* Slider handle height */
+                         background: white; /* Green background */
+                         border-radius: 20px;
+                         border-color: darkblue;   
+                    }
+                }
+                .ui-spinner{
+                    position: relative;
+                    //appearance: none;
+                    height: auto;
+                    background: $primary;
+                    top: 15px;
+                    //text-align: center;
+                    display: block;
+                    margin-left: auto;
+                    margin-right: auto;
+
+                    & .ui-spinner-input{
+                        //appearance: none;
+                        color: white;
+                        //float: center;
+                        text-align: center;
+                        //background: red;
+                    }
+
+                    & .ui-spinner-button{
+                        //appearance: none;
+                        //background: white;
+                        //float: right;ù
+                        //background: blue;
+                        //bottom: 2px;
+                    }
+                }
+
+                .solid{
+                    position: relative;
+                    bottom: -15px;
+                    z-index: 2000;
+                    display: block;
+                    height: 1px;
+                    border-top: 1px solid #ccc;
+                    padding: 0px;
+                }
+                #bottone{
+                    z-index: 2000;
                 }
             }
             

@@ -5,6 +5,8 @@
     <title>Mythic Framework Inventory</title>
     <link href="https://fonts.googleapis.com/css?family=Signika" rel="stylesheet">
     <link href="./css/jquery-ui.min.css" rel="stylesheet" type="text/css">
+    <link href="./css/jquery-ui.structure.min.css" rel="stylesheet" type="text/css">
+    <link href="./css/jquery-ui.theme.min.css" rel="stylesheet" type="text/css">
     <link href="./css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="./css/style.min.css" rel="stylesheet" type="text/css">
 </head>
@@ -14,8 +16,25 @@
     <div class="ui">
         <div class="close-ui">X</div>
         <div class="seleziona">
-            <div class="oggetto"></div>
+            <!-- <div class="oggetto"></div> -->
             <div id="arma"></div>
+            <div class="ricaricahud">
+                <div id ="quantita">Quantità</div>
+                <!-- <div id="range" value="0">
+                    <div id="rangeFill" class="ui-slider-range"></div>
+                    <div id="custom-handle" class="ui-slider-handle"></div>
+                    <div id="slidercolored" class="ui-slider-range"></div>
+                    anchor for button gets dynamically inserted here
+                </div>
+                <input id="spinners" type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" value="0"> -->
+                    <span class="wrap">
+                        <div id="slider"></div>
+                     <input type="text" id="textinput" onkeyup="if(this.value<0){this.value= this.value * -1}if(isNaN(this.value)){this.value= null}"/>
+                    </span>
+                
+                <hr class="solid">
+                <div id ="bottone"></div>
+            </div>
         </div>
         <div class="inventory" id="inventory">
             <div class="inventory-wrapper">
@@ -105,6 +124,7 @@
 </body>
 <script>
     $(document).ready(function () {
+        $.fn.bootstrapBtn = $.fn.button.noConflict();
         $("#use").html(invLocale.useItem);
         $("#give").html(invLocale.giveItem);
         $("#pay").html(invLocale.dropItem);
