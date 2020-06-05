@@ -581,112 +581,82 @@ $(document).ready(function () {
         if(e.which == 3){
             var itemData = $(this).find('.item').data('item');
             $('.seleziona').find('#arma').css({position:'absolute',top:e.pageY, left: e.pageX}).html("Ricarica").slideDown();
-            //print(itemData.itemId)
             if(itemData.itemId.startsWith('WEAPON')){
                 $('#arma').click(function (event, ui){
-                    $('.seleziona').find('#arma').hide();
-                    
-                        // $("#slider").slider({
-                        //   min: 0, max: 100, step: 1, value: 0,
-                        //   slide: function( event, ui ) {
-                        //     $("#slidervalue").val(ui.value);
-                        //   }
-                        // });
-                        // var initialValue = $("#slider").slider("option", "value");
-                        // $("#slidervalue").val(initialValue);
-                        // $("#slidervalue").change(function() {
-                        //   var oldVal = $("#slider").slider("option", "value");
-                        //   var newVal = $(this).val();
-                        //   if (isNaN(newVal) || newVal < 10 || newVal > 100) {
-                        //     $("#slidervalue").val(oldVal);
-                        //   } else {
-                        //     $("#slider").slider("option", "value", newVal);
-                        //   }
-                        // });
-                        // $(function () {
-                        //     var last = 0;
-                        //     // $("#currency").change(function () {
-                        //     //     $("#slidervalue").spinner("option", "culture", $(this).val());
-                        //     // });
-                        
-                        
-                        //     //Range Slider		
-                        //     $("#range").slider({
-                        //         min: 0,
-                        //         max: 100,
-                        //         step: 1,
-                        //         start: 0,
-                        //         slide: function (event, ui) {
-                        
-                        //             // Slider speak to range slider fill
-                        //             $("#rangeFill").css("width", ui.value + "%");
-                        
-                        //             // Slider bump spinner values
-                        //             $("#spinners").spinner("value", ui.value);
+                    if(dragging){ 
+                        itemData = $(draggingItem).find('.item').data("item");
+                        EndDragging();
 
-                        //             last = ui.value;
-                        //         }
-                        //     });
+                        $('.seleziona').find('#arma').hide();
 
-                        //     //Spinner
-                        //     $("#spinners").spinner({
-                        //         min: 0,
-                        //         max: 100,
-                        //         step: 1,
-                        //         start: 0,
-                        //         numberFormat: "C",
-                        //         spin: function (event, ui) {
-                        
-                        //             // Spinner speak to range slider
-                        //             $("#range").slider("value", ui.value);
-                        
-                        //             // Spinner speak to range slider fill
-                        //             $( "#rangeFill" ).css( "width", ui.value + "%");
-                        //         }
-                        //     });
+                        var itemquantity = itemData.qty
+                        var quantityvalue 
+                        var maxvalue = itemquantity
+
+                            var $slider = $('#slider');
                             
-
-                        //  });
-                        // $.widget('ui.spinner', $.ui.spinner, {
-                        //     _buttonHtml: function() {
-                        //         return '<span class="ui-spinner-button ui-spinner-up">' +
-                        //       '<i class="fa fa-plus"></i>' +
-                        //     '</span>' +
-                        //     '<span class="ui-spinner-button ui-spinner-down">' +
-                        //       '<i class="fa fa-minus"></i></span>';
-                        //     }
-                        // });
-                        //jQuery.noConflict();
-                        //(function( $ ) {
-                            //$(function() {
-                                var $slider = $('#slider');
+                            var $spinner = $('input[type=text]').spinner({
+                                min: 0,
+                                max: maxvalue,
+                                //value: 25,
+                                incremental: true,
+                                icons: { down: "ui-icon-triangle-1-s", up: "ui-icon-triangle-1-n" }
+                                });
+                                    
+                            $slider.slider({
+                                //range: true,
+                                min: 0,
+                                max: maxvalue,
+                                animate: true,
+                                slide: function(event, ui) {
+                                    $spinner.val(ui.value);
+                                    quantityvalue = ui.value
+                                }
+                            });
+                                    
+                            $spinner.on('spinstop', function(e, ui) {
+                                quantityvalue = $(this).val()
+                                $slider.slider('value', $(this).val());
+                            });
+                        $('.seleziona').find('.ricaricahud').css({position:'absolute',top:'40%',left:'50%'}).slideDown();
                         
-                                var $spinner = $('input[type=text]').spinner({
-                                    min: 0,
-                                    max: 100,
-                                    //value: 25,
-                                    incremental: true,
-                                    icons: { down: "ui-icon-triangle-1-s", up: "ui-icon-triangle-1-n" }
-                                });
-                                
-                                $slider.slider({
-                                    //range: true,
-                                    min: 0,
-                                    max: 100,
-                                    animate: true,
-                                    slide: function(event, ui) {
-                                            $spinner.val(ui.value);
-                                    }
-                                });
-                                
-                                $spinner.on('spinstop', function(e, ui) {
-                                    $slider.slider('value', $(this).val());
-                                });
-         
-                            //});
-                        //})(jQuery);
+                        function GetQuantity(num) {
+                            if (quantityvalue == undefined) {
+                                InventoryLog("Inserisci un valore valido");
+                                return;
+                            }
+                            if(quantityvalue > maxvalue){
+                                InventoryLog("Inserisci un valore valido");
+                                return;
+                            }
+                            else{
+                                InventoryLog("valore corretto");
+                                $.post("http://disc-inventoryhud/AmmoReload", JSON.stringify({
+                                    owner: $(draggingItem).parent().data('invOwner'),
+                                    slot: $(draggingItem).data('slot'),
+                                    item: itemData,
+                                    quantity: quantityvalue
+                                }));
+                            }
+                        }
 
-                    $('.seleziona').find('.ricaricahud').css({position:'absolute',top:'40%',left:'50%'}).slideDown();
+                        $('#textinput').keypress(function(event){
+                            var keycode = (event.keyCode ? event.keyCode : event.which);
+                            if(keycode == '13'){
+                                //InventoryLog("Hai premuto INVIO");
+                                GetQuantity(quantityvalue);
+                            }
+                        });
+
+                        $('#bottone').click(function(event){
+                            //InventoryLog("Hai premuto bottone");
+                            GetQuantity(quantityvalue);
+                        });
+                    }
+                    else{
+                        $('.seleziona').find('#arma').hide();
+                        InventoryLog("Devi trascinare le munizioni")
+                    }
                 });
             }
             else{

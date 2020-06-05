@@ -164,7 +164,7 @@ body {
                     height: auto;
                     background: $primary;
                     top: 15px;
-                    //text-align: center;
+                    text-align: center;
                     display: block;
                     margin-left: auto;
                     margin-right: auto;
@@ -181,22 +181,31 @@ body {
                         //appearance: none;
                         //background: white;
                         //float: right;ù
-                        //background: blue;
+                        background: white;
                         //bottom: 2px;
                     }
                 }
 
                 .solid{
                     position: relative;
-                    bottom: -15px;
+                    bottom: -25px;
                     z-index: 2000;
                     display: block;
                     height: 1px;
                     border-top: 1px solid #ccc;
                     padding: 0px;
+                    width: 115%;
+                    right: 7.75%;
                 }
                 #bottone{
+                    position: relative;
+                    bottom: -20px;
                     z-index: 2000;
+                    width: 25%;
+                    color: black;
+                    display: block;
+                    margin-left: auto;
+                    margin-right: auto;
                 }
             }
             

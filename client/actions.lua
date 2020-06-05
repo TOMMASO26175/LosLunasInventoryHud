@@ -28,6 +28,10 @@ RegisterNUICallback('RicaricaAmmo', function(data)
       })
 end)
 
+RegisterNUICallback('AmmoReload',function(data)
+    print(data.quantity)
+end)
+
 
 local keys = {  --1,2,3,4,5
     157, 158, 160, 164, 165
