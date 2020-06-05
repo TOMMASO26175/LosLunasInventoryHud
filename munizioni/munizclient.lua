@@ -64,7 +64,7 @@ end
 
 
 RegisterNetEvent('ricaricaammo')
-AddEventHandler('ricaricaammo', function(ammo)
+AddEventHandler('ricaricaammo', function(ammo,item,quantity)
     local playerPed = GetPlayerPed(-1)
     local weapon
 
@@ -81,16 +81,16 @@ AddEventHandler('ricaricaammo', function(ammo)
         --Citizen.Trace(weapon)
         if weapon ~= nil then
             local pedAmmo = GetAmmoInPedWeapon(playerPed, weapon)   --munizioni nella pistola
-            local newAmmo = pedAmmo + ammo.quantity --munizioni nella pistola + munizioni decise da ricaricare
+            local newAmmo = pedAmmo + quantity --munizioni nella pistola + munizioni decise da ricaricare
             ClearPedTasks(playerPed)
             local found, maxAmmo = GetMaxAmmo(playerPed, weapon)
-            if newAmmo < maxAmmo then
+            if true then--newAmmo < maxAmmo 
                 TaskReloadWeapon(playerPed)	--animazione ricarica
                 sqlWeapon = weaponNome(weapon)
                 TriggerServerEvent('updateammosql', weapon, newAmmo,sqlWeapon)
 
                 SetPedAmmo(playerPed, weapon, newAmmo)
-                TriggerServerEvent('rimuovimunizionidoporicarica', ammo)
+                TriggerServerEvent('rimuovimunizionidoporicarica', ammo,quantity)
                 exports['mythic_notify']:SendAlert('success', 'Hai ricaricato')
             else
                 exports['mythic_notify']:SendAlert('error', 'Munizioni massime')

@@ -30,6 +30,10 @@ end)
 
 RegisterNUICallback('AmmoReload',function(data)
     print(data.quantity)
+    TriggerServerEvent('disc-inventoryhud:ricaricaammo', data.item, data.quantity)
+    TriggerServerEvent('ammotest',data.item,data.quantity)
+    TriggerEvent('disc-inventoryhud:refreshInventory')
+
 end)
 
 

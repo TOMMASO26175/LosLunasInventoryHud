@@ -193,7 +193,7 @@ Config.Ammo = {
     {
         name = 'ammo_pistol',
         weapons = {
-            `WEAPON_PISTOL`,
+            `WEAPON_PISTOL`,--`
             'WEAPON_APPISTOL',
             'WEAPON_SNSPISTOL',
             'WEAPON_COMBATPISTOL',

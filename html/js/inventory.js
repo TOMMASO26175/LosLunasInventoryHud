@@ -609,8 +609,8 @@ $(document).ready(function () {
                                 max: maxvalue,
                                 animate: true,
                                 slide: function(event, ui) {
-                                    $spinner.val(ui.value);
                                     quantityvalue = ui.value
+                                    $spinner.val(ui.value);
                                 }
                             });
                                     
@@ -637,6 +637,12 @@ $(document).ready(function () {
                                     item: itemData,
                                     quantity: quantityvalue
                                 }));
+                                //spinner and slider reset for no dupe
+                                quantityvalue = undefined;
+                                maxvalue = 0;
+                                $( "#slider" ).slider( "option", "value", 0 );
+                                $( "input[type=text]" ).spinner( "value", 0 );
+                                $('.seleziona').find('.ricaricahud').hide();
                             }
                         }
 
