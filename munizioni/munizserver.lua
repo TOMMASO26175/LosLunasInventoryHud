@@ -1,17 +1,10 @@
 ESX = nil
+ItemQuantity = 1
 
 TriggerEvent('esx:getSharedObject', function(obj)
     ESX = obj
 end)
 
-Citizen.CreateThread(function()
-    Citizen.Wait(0)
-    for k,v in pairs(Config.Ammo) do
-        ESX.RegisterUsableItem(v.name,function(source)
-            --TriggerClientEvent('ricaricaammo', source, v)   --passa v = oggetto ammo
-        end)
-    end
-end)
 
 RegisterNetEvent('rimuovimunizionidoporicarica')
 AddEventHandler('rimuovimunizionidoporicarica', function(ammo,quantity)
@@ -19,12 +12,41 @@ AddEventHandler('rimuovimunizionidoporicarica', function(ammo,quantity)
     xPlayer.removeInventoryItem(ammo.name,quantity)
 end)
 
-RegisterNetEvent('ammotest')
-AddEventHandler('ammotest',function(item,quantity)
-    for k, v in pairs(Config.Ammo) do
-        TriggerClientEvent('ricaricaammo',source,v,item,quantity)    
+RegisterNetEvent('useammo')
+AddEventHandler('useammo',function(itemName)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	local count = xPlayer.getInventoryItem(itemName).count
+	
+	if count > 0 then
+		ESX.UseItem(source, itemName)
+	else
+		xPlayer.showNotification("Errore")
+	end
+end)
+
+ RegisterNetEvent('ammotest')
+ AddEventHandler('ammotest',function(item,quantity)
+    ItemQuantity = quantity
+ end)
+
+Citizen.CreateThread(function()
+    Citizen.Wait(0)
+    for k,v in pairs(Config.Ammo) do
+        ESX.RegisterUsableItem(v.name,function(source)
+            TriggerClientEvent('ricaricaammo', source, v,ItemQuantity)   --passa v = oggetto ammo
+        end)
     end
 end)
+
+-- RegisterNetEvent('ammotest')
+-- AddEventHandler('ammotest',function(item,quantity)
+--     for k, v in pairs(Config.Ammo) do
+--         ESX.RegisterUsableItem(v.name,function(source)
+--             TriggerClientEvent('ricaricaammo',source,v,item,quantity)
+--         end)
+--     end
+-- end)
+
 -- RegisterNetEvent('creaoggetti')
 -- AddEventHandler('creaoggetti', function(prova)
 -- Newammo  = {

@@ -596,7 +596,7 @@ $(document).ready(function () {
                             var $slider = $('#slider');
                             
                             var $spinner = $('input[type=text]').spinner({
-                                min: 0,
+                                min: 1,
                                 max: maxvalue,
                                 //value: 25,
                                 incremental: true,
@@ -605,7 +605,7 @@ $(document).ready(function () {
                                     
                             $slider.slider({
                                 //range: true,
-                                min: 0,
+                                min: 1,
                                 max: maxvalue,
                                 animate: true,
                                 slide: function(event, ui) {
@@ -621,11 +621,16 @@ $(document).ready(function () {
                         $('.seleziona').find('.ricaricahud').css({position:'absolute',top:'40%',left:'50%'}).slideDown();
                         
                         function GetQuantity(num) {
-                            if (quantityvalue == undefined) {
+                            //InventoryLog(num)
+                            if (num == undefined) {
                                 InventoryLog("Inserisci un valore valido");
                                 return;
                             }
-                            if(quantityvalue > maxvalue){
+                            if(num > maxvalue){
+                                InventoryLog("Inserisci un valore valido");
+                                return;
+                            }
+                            if(num.toString().startsWith("0")){
                                 InventoryLog("Inserisci un valore valido");
                                 return;
                             }
@@ -635,9 +640,10 @@ $(document).ready(function () {
                                     owner: $(draggingItem).parent().data('invOwner'),
                                     slot: $(draggingItem).data('slot'),
                                     item: itemData,
-                                    quantity: quantityvalue
+                                    quantity: num
                                 }));
                                 //spinner and slider reset for no dupe
+                                num = 0
                                 quantityvalue = undefined;
                                 maxvalue = 0;
                                 $( "#slider" ).slider( "option", "value", 0 );

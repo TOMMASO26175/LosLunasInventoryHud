@@ -32,7 +32,11 @@ RegisterNUICallback('AmmoReload',function(data)
     print(data.quantity)
     TriggerServerEvent('disc-inventoryhud:ricaricaammo', data.item, data.quantity)
     TriggerServerEvent('ammotest',data.item,data.quantity)
+    TriggerServerEvent('useammo',data.item.id)
     TriggerEvent('disc-inventoryhud:refreshInventory')
+    if Check then
+        TriggerEvent('disc-inventoryhud:showItemUse', {data.item},data.quantity)
+    end
 
 end)
 
@@ -93,7 +97,7 @@ function UseItem(slot)
 end
 
 RegisterNetEvent('disc-inventoryhud:showItemUse')
-AddEventHandler('disc-inventoryhud:showItemUse', function(items)
+AddEventHandler('disc-inventoryhud:showItemUse', function(items,quantity)
     local data = {}
     for k, v in pairs(items) do
         table.insert(data, {
@@ -101,7 +105,7 @@ AddEventHandler('disc-inventoryhud:showItemUse', function(items)
                 label = v.label,
                 itemId = v.id
             },
-            qty = v.qty,
+            qty = quantity,
             message = v.msg
         })
     end
