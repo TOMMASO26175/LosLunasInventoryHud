@@ -3,6 +3,7 @@ CREATE TABLE ls_ammo
 	id INT unsigned auto_increment PRIMARY KEY,
 	owner TEXT not null,
 	weapon TEXT not null,
+	weaponserial TEXT not null,
 	amount int default 0 not null,
 	constraint id
 	unique (id)
@@ -14,8 +15,7 @@ CREATE TABLE ls_money
 	owner TEXT NOT NULL,
 	type TEXT NULL,
 	cash INT unsigned DEFAULT 0 NOT NULL,
-	black_money INT unsigned DEFAULT 0 NOT NULL,
-	
+	black_money INT unsigned DEFAULT 0 NOT NULL
 );
 
 CREATE TABLE ls_inventory
@@ -24,8 +24,9 @@ CREATE TABLE ls_inventory
 	owner TEXT NOT NULL,
 	type TEXT NOT NULL,
 	item TEXT NOT NULL,
-	--usable BIT NOT NULL,--1/0 WIP
-	amount SMALLINT NOT NULL,	
+	usable BIT NOT NULL DEFAULT 0,
+	amount SMALLINT NOT NULL,
+	weight TINYINT NOT NULL DEFAULT 0
 );
 
 --ammo
