@@ -39,26 +39,16 @@ weaponhashes = {
 }
 
 function weaponNome(hash)
-    --Citizen.Trace(hash)
     for k,v in ipairs(weaponhashes) do
-        -- Citizen.Trace(v.whash)
-        -- local funhash = type(hash)
-        -- local hashvar = type(v.whash)
-        -- Citizen.Trace(funhash)  --numero
-        -- Citizen.Trace(" ")
-        -- Citizen.Trace(hashvar)  --stringa debug
         if tonumber(v.whash) == hash then
             weapon = v.weapon
             break
-            --exports['mythic_notify']:SendAlert('success', 'Riponi l\'arma')
         elseif tonumber(v.whash) ~= hash then
-            --exports['mythic_notify']:SendAlert('error', 'Errore Arma Inesistente')
             weapon = nil
         else
-            exports['mythic_notify']:SendAlert('error', 'Errore Enorme')    
+            exports['mythic_notify']:SendAlert('error', 'Errore Enorme contatta gli amministatori')
         end
     end
-    --Citizen.Trace(weapon)
     return weapon
 end
 
@@ -107,10 +97,10 @@ AddEventHandler('ricaricaammo', function(ammo,quantity)
 end)
 
 
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
-        local currentWeapon = GetSelectedPedWeapon(GetPlayerPed(-1)) 
-        DisplayAmmoThisFrame(currentWeapon)
-    end
-end)
+-- Citizen.CreateThread(function()
+--     while true do
+--         Citizen.Wait(0)
+--         local currentWeapon = GetSelectedPedWeapon(GetPlayerPed(-1))
+--         DisplayAmmoThisFrame(currentWeapon)
+--     end
+-- end)
