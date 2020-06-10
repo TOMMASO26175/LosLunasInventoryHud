@@ -62,7 +62,7 @@ function weaponNome(hash)
     return weapon
 end
 
-Check = false
+
 
 RegisterNetEvent('ricaricaammo')
 AddEventHandler('ricaricaammo', function(ammo,quantity)
@@ -74,31 +74,32 @@ AddEventHandler('ricaricaammo', function(ammo,quantity)
         for _, v in pairs(ammo.weapons) do
             if currentWeapon == v then
                 weapon = v  --ritorna l'arma appartenente al campo di munizioni
-                --print(v)
                 break
             end
         end
-        --print(weapon)
-        --Citizen.Trace(weapon)
+
         if weapon ~= nil then
             local pedAmmo = GetAmmoInPedWeapon(playerPed, weapon)   --munizioni nella pistola
             local newAmmo = pedAmmo + quantity --munizioni nella pistola + munizioni decise da ricaricare
+
             ClearPedTasks(playerPed)
-            local found, maxAmmo = GetMaxAmmo(playerPed, weapon)
-            if newAmmo < maxAmmo then--newAmmo < maxAmmo 
+
+            --local found, maxAmmo = GetMaxAmmo(playerPed, weapon)
+            local maxAmmo = 200
+
+            if newAmmo <= maxAmmo then
                 TaskReloadWeapon(playerPed)	--animazione ricarica
-                sqlWeapon = weaponNome(weapon)
+                local sqlWeapon = weaponNome(weapon)
                 TriggerServerEvent('updateammosql', weapon, newAmmo,sqlWeapon)
 
                 SetPedAmmo(playerPed, weapon, newAmmo)
                 TriggerServerEvent('rimuovimunizionidoporicarica', ammo,quantity)
-                exports['mythic_notify']:SendAlert('success', 'Hai ricaricato')
-                Check = true
+                exports['mythic_notify']:SendAlert('success', 'Hai ricaricato '.. quantity ..' munizioni')
             else
                 exports['mythic_notify']:SendAlert('error', 'Munizioni massime')
             end
 		else
-			exports['mythic_notify']:SendAlert('error', 'Arma non trovata')
+            exports['mythic_notify']:SendAlert('error', 'Arma non trovata')
         end
     else
         exports['mythic_notify']:SendAlert('error', 'Non hai un arma selezionata')

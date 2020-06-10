@@ -15,8 +15,8 @@ end)
 RegisterNetEvent('useammo')
 AddEventHandler('useammo',function(itemName)
 	local xPlayer = ESX.GetPlayerFromId(source)
-	local count = xPlayer.getInventoryItem(itemName).count
-	
+    local count = xPlayer.getInventoryItem(itemName).count
+
 	if count > 0 then
 		ESX.UseItem(source, itemName)
 	else
@@ -24,10 +24,11 @@ AddEventHandler('useammo',function(itemName)
 	end
 end)
 
- RegisterNetEvent('ammotest')
- AddEventHandler('ammotest',function(item,quantity)
+
+RegisterNetEvent('ammotest')
+AddEventHandler('ammotest',function(item,quantity)
     ItemQuantity = quantity
- end)
+end)
 
 Citizen.CreateThread(function()
     Citizen.Wait(0)

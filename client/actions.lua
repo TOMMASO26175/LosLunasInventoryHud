@@ -1,4 +1,5 @@
 isHotKeyCoolDown = false
+
 RegisterNUICallback('UseItem', function(data)
     if isWeapon(data.item.id) then
         currentWeaponSlot = data.slot
@@ -34,10 +35,6 @@ RegisterNUICallback('AmmoReload',function(data)
     TriggerServerEvent('ammotest',data.item,data.quantity)
     TriggerServerEvent('useammo',data.item.id)
     TriggerEvent('disc-inventoryhud:refreshInventory')
-    if Check then
-        TriggerEvent('disc-inventoryhud:showItemUse', {data.item},data.quantity)
-    end
-
 end)
 
 
@@ -91,13 +88,34 @@ function UseItem(slot)
              TriggerEvent('disc-inventoryhud:showItemUse', {
                  item,
              })
+        elseif item == false then
+            exports['mythic_notify']:SendAlert('error', 'Non puoi ricaricare le munizioni in questo modo')
         end
     end
     , slot)
 end
 
 RegisterNetEvent('disc-inventoryhud:showItemUse')
-AddEventHandler('disc-inventoryhud:showItemUse', function(items,quantity)
+AddEventHandler('disc-inventoryhud:showItemUse', function(items)
+    local data = {}
+    for k, v in pairs(items) do
+        table.insert(data, {
+            item = {
+                label = v.label,
+                itemId = v.id
+            },
+            qty = v.qty,
+            message = v.msg
+        })
+    end
+    SendNUIMessage({
+         action = 'itemUsed',
+         alerts = data
+    })
+end)
+
+RegisterNetEvent('ls_inventory:client:usenotify')
+AddEventHandler('ls_inventory:client:usenotify', function(items,quantity)
     local data = {}
     for k, v in pairs(items) do
         table.insert(data, {
@@ -114,3 +132,4 @@ AddEventHandler('disc-inventoryhud:showItemUse', function(items,quantity)
          alerts = data
     })
 end)
+
