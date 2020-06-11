@@ -1,9 +1,9 @@
 var invLocale = new Object();
-invLocale.dropItem = "Pay";
+invLocale.dropItem = "Paga";
 invLocale.useItem = "Use";
-invLocale.giveItem = "Give";
+invLocale.giveItem = "Dai";
 invLocale.label = "Inventory Label";
 invLocale.stealmoney = "Steal Cash";
 invLocale.seizemoney = "Seize Cash";
-invLocale.takemoney = "Take";
-invLocale.storemoney = "Store";
+invLocale.takemoney = "Prendi denaro";
+invLocale.storemoney = "Deposita denaro";

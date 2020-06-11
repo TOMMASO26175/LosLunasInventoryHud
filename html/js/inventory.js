@@ -331,8 +331,8 @@ $(document).ready(function () {
         successAudio.play();
         $('.near-players-wrapper').find('.popup-body').html('');
         $('.near-players-wrapper').find('.popup-body').html('');
-        $('.near-players-list .popup-body').append(`<div class="cashtake" data-id="cash">Cash</div>`);
-        $('.near-players-list .popup-body').append(`<div class="cashtake" data-id="black_money">Black Money</div>`);
+        $('.near-players-list .popup-body').append(`<div class="cashtake" data-id="cash">Soldi</div>`);
+        $('.near-players-list .popup-body').append(`<div class="cashtake" data-id="black_money">Soldi Sporchi</div>`);
         $('.near-players-wrapper').fadeIn();
         EndDragging();
     });
@@ -345,8 +345,8 @@ $(document).ready(function () {
         successAudio.play();
         $('.near-players-wrapper').find('.popup-body').html('');
         $('.near-players-wrapper').find('.popup-body').html('');
-        $('.near-players-list .popup-body').append(`<div class="cashstore" data-id="cash">Cash</div>`);
-        $('.near-players-list .popup-body').append(`<div class="cashstore" data-id="black_money">Black Money</div>`);
+        $('.near-players-list .popup-body').append(`<div class="cashstore" data-id="cash">Soldi</div>`);
+        $('.near-players-list .popup-body').append(`<div class="cashstore" data-id="black_money">Soldi Sporchi</div>`);
         $('.near-players-wrapper').fadeIn();
         EndDragging();
     });
@@ -389,8 +389,8 @@ $(document).ready(function () {
     }).click(function (event, ui) {
         successAudio.play();
         $('.near-players-wrapper').find('.popup-body').html('');
-        $('.near-players-list .popup-body').append(`<div class="cashchoice" data-id="cash">Cash</div>`);
-        $('.near-players-list .popup-body').append(`<div class="cashchoice" data-id="black_money">Black Money</div>`);
+        $('.near-players-list .popup-body').append(`<div class="cashchoice" data-id="cash">Soldi</div>`);
+        $('.near-players-list .popup-body').append(`<div class="cashchoice" data-id="black_money">Soldi Sporchi</div>`);
         $('.near-players-wrapper').fadeIn();
         EndDragging();
     });
@@ -577,9 +577,10 @@ $(document).ready(function () {
     $('.seleziona').find('#arma').hide();
     $('.seleziona').find('#ricarica').hide();
 
-    $('#inventoryOne').on('mousedown', '.slot',function(e){
+    $('#inventoryOne').on('mouseenter', '.slot',function(e){
+        var itemData = $(this).find('.item').data('item');
+        InventoryLog(itemData.label)
         if(e.which == 3){
-            var itemData = $(this).find('.item').data('item');
             $('.seleziona').find('#arma').css({position:'absolute',top:e.pageY, left: e.pageX}).html("Ricarica").slideDown();
             if(itemData.itemId.startsWith('WEAPON')){
                 $('#arma').click(function (event, ui){
@@ -589,9 +590,9 @@ $(document).ready(function () {
 
                         $('.seleziona').find('#arma').hide();
 
-                        var itemquantity = itemData.qty
-                        var quantityvalue 
-                        var maxvalue = itemquantity
+                            var itemquantity = itemData.qty
+                            var quantityvalue 
+                            var maxvalue = itemquantity
 
                             var $slider = $('#slider');
                             
@@ -618,19 +619,10 @@ $(document).ready(function () {
                                 quantityvalue = $(this).val()
                                 $slider.slider('value', $(this).val());
                             });
-                        $('.seleziona').find('.ricaricahud').css({position:'absolute',top:'40%',left:'50%'}).slideDown();
+                        $('.seleziona').find('.ricaricahud').css({position:'absolute',top:'20%',left:'42.5%'}).slideDown();
                         
                         function GetQuantity(num) {
-                            //InventoryLog(num)
-                            if (num == undefined) {
-                                InventoryLog("Inserisci un valore valido");
-                                return;
-                            }
-                            if(num > maxvalue){
-                                InventoryLog("Inserisci un valore valido");
-                                return;
-                            }
-                            if(num.toString().startsWith("0")){
+                            if (num == undefined || num > maxvalue || num.toString().startsWith("0")) {
                                 InventoryLog("Inserisci un valore valido");
                                 return;
                             }
@@ -643,24 +635,26 @@ $(document).ready(function () {
                                     quantity: num
                                 }));
                                 //spinner and slider reset for no dupe
-                                num = 0
-                                quantityvalue = undefined;
-                                maxvalue = 0;
-                                $( "#slider" ).slider( "option", "value", 0 );
-                                $( "input[type=text]" ).spinner( "value", 0 );
+                                quantityvalue = 0;
+                                maxvalue = 1;
+                                $( "#slider" ).slider( "option", "value", 1 );
+                                $( "input[type=text]" ).spinner( "value", 1 );
                                 $('.seleziona').find('.ricaricahud').hide();
+                                return;
                             }
                         }
+
+                        
 
                         $('#textinput').keypress(function(event){
                             var keycode = (event.keyCode ? event.keyCode : event.which);
                             if(keycode == '13'){
-                                //InventoryLog("Hai premuto INVIO");
+                                //$('#bottone').click();
                                 GetQuantity(quantityvalue);
                             }
                         });
 
-                        $('#bottone').click(function(event){
+                        $('#bottone').click(function(){
                             //InventoryLog("Hai premuto bottone");
                             GetQuantity(quantityvalue);
                         });

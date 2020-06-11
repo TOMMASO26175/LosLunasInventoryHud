@@ -20,13 +20,6 @@
             <div id="arma"></div>
             <div class="ricaricahud">
                 <div id ="quantita">Quantità</div>
-                <!-- <div id="range" value="0">
-                    <div id="rangeFill" class="ui-slider-range"></div>
-                    <div id="custom-handle" class="ui-slider-handle"></div>
-                    <div id="slidercolored" class="ui-slider-range"></div>
-                    anchor for button gets dynamically inserted here
-                </div>
-                <input id="spinners" type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" value="0"> -->
                     <span class="wrap">
                         <div id="slider"></div>
                      <input type="text" id="textinput" onkeyup="if(this.value<0){this.value= this.value * -1}if(isNaN(this.value)){this.value= null}"/>
@@ -58,16 +51,17 @@
                 </div>
             </div>
             <div id="controls">
+                <div class="money-name">Denaro</div>
                 <div class="money-controls-div">
-                    <div class="control" id="take">Take</div>
-                    <div class="control" id="store">Store</div>
-                </div>
+                    <div class="control" id="take">Prendi Denaro</div>
+                    <div class="control" id="store">Deposita Denaro</div>
+                </div> 
+                <div class="quantita-name">Quantità</div>
                 <div class="controls-div">
                     <input type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" class="control" id="count" value="0" onClick="this.select();">
-                    <!-- <input type="number" class="control" id="count" value="0" onClick="this.select();"> -->
                     <!-- <div class="control" id="use">Use</div> -->    
-                    <div class="control" id="give">Give</div>
-                    <div class="control" id="pay">Pay</div>
+                    <div class="control" id="give">Dai</div>
+                    <div class="control" id="pay">Paga</div>
                     <div class="control hidden" id="seize">Seize Cash</div>
                     <div class="control hidden" id="steal">Steal Cash</div>
                 </div>
@@ -104,7 +98,7 @@
 
     <div class="near-players-wrapper">
         <div class="near-players-list">
-            <div class="popup-header"><div class="popup-header-text">Nearby Players</div><div class="exit-popup">X</div></div>
+            <div class="popup-header"><div class="popup-header-text">Giocatori Nelle Vicinanze</div><div class="exit-popup">X</div></div>
             <div class="popup-body">
             </div>
         </div>
