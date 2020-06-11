@@ -276,15 +276,19 @@ body {
                     width: 100%;
                     display: flex;
                     position: absolute;
-                    top: -60px;
+                    top: -105px;
                     padding-left: 5px;
                     text-transform: none !important;
                     flex-direction: row-reverse;
                     flex-wrap: wrap;
                     justify-content: flex-end;
+                    height: 15%;
+                    
                 
                     .inv-id {
-                        text-align: left;
+                        position: absolute;
+                        bottom: 0px;
+                        left: 0;
                     }
                 
                     .inv-slots {
@@ -295,27 +299,81 @@ body {
                     .inv-weight{
                         text-align: center;
                     }
+
+                    .info-div {
+                        width: 100%;
+                        position: absolute;
+                        left: 0%;
+                        bottom: 20%;
+                        font-size: 20px;
+                                  
+                        .moneyIcon {
+                            width: 35px;
+                            height: 35px;
+                        }
+
+                        #bank {
+                            float: left;
+                        }
+                        
+                        #black_money {
+                            float: inline-start;
+                        }
+
+                        #cash {
+                            float: center;
+                            margin: 0;    
+                        }     
+                    }
                 }
                 
                 .right-data {
                     width: 100%;
                     display: flex;
                     position: absolute;
-                    top: -60px;
+                    top: -105px;
                     padding-left: 5px;
                     text-transform: none !important;
                     flex-direction: row-reverse;
                     flex-wrap: wrap;
-                    right: 0;
-                    justify-content: flex-start;
+                    justify-content: flex-end;
+                    height: 15%;
+                    
                 
                     .inv-label {
                         text-align: right;
                     }
+
+                    .inv-id {
+                        position: absolute;
+                        bottom: 0px;
+                        right: 0;
+                    }
                 
                     .inv-slots {
                         left: 0;
-                        margin-right: auto;
+                    }
+
+                    .second-info-div {
+                        width: 100%;
+                        position: absolute;
+                        right: 0%;
+                        bottom: 20%;
+                        font-size: 20px;
+                                  
+                        .moneyIcon {
+                            width: 35px;
+                            height: 35px;
+                        }
+
+                        #second-cash {
+                            float: right;   
+                        } 
+
+                        #second-black_money {
+                            float: inline-end;
+                        }
+    
                     }
                 }
             }
@@ -330,51 +388,51 @@ body {
                 margin-left: auto;
                 margin-right: auto;
         
-                .info-div {
-                    text-align: center;
-                    padding: 10px;
-                    background-color: $primary;
-                    width: 30%;
-                    position: absolute;
-                    left: 28%;
-                    top: 15%;
-                    transform: translate(-50%, -50%);                        
-                    border: 2px solid $border;
-                    border-radius: 5px;
+                // .info-div {
+                //     text-align: center;
+                //     padding: 10px;
+                //     background-color: $primary;
+                //     width: 30%;
+                //     position: absolute;
+                //     left: 28%;
+                //     top: 15%;
+                //     transform: translate(-50%, -50%);                        
+                //     border: 2px solid $border;
+                //     border-radius: 5px;
         
-                    .ammoIcon {
-                        width: 10px;
-                        height: 10px;
-                    }
+                //     .ammoIcon {
+                //         width: 10px;
+                //         height: 10px;
+                //     }
                     
-                    .moneyIcon {
-                        width: 15px;
-                        height: 15px;
-                    }
-                }
+                //     .moneyIcon {
+                //         width: 15px;
+                //         height: 15px;
+                //     }
+                // }
 
-                .second-info-div {
-                    text-align: center;
-                    padding: 10px;
-                    background-color: $primary;
-                    width: 30%;
-                    position: absolute;
-                    right: 0%;
-                    top: 15%;
-                    transform: translate(-50%, -50%);                        
-                    border: 2px solid $border;
-                    border-radius: 5px;
+                // .second-info-div {
+                //     text-align: center;
+                //     padding: 10px;
+                //     background-color: $primary;
+                //     width: 30%;
+                //     position: absolute;
+                //     right: 0%;
+                //     top: 15%;
+                //     transform: translate(-50%, -50%);                        
+                //     border: 2px solid $border;
+                //     border-radius: 5px;
         
-                    .ammoIcon {
-                        width: 10px;
-                        height: 10px;
-                    }
+                //     .ammoIcon {
+                //         width: 10px;
+                //         height: 10px;
+                //     }
                     
-                    .moneyIcon {
-                        width: 15px;
-                        height: 15px;
-                    }
-                }
+                //     .moneyIcon {
+                //         width: 15px;
+                //         height: 15px;
+                //     }
+                // }
 
                 .hidden {
                     display: none;

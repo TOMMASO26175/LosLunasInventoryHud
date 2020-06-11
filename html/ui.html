@@ -40,11 +40,17 @@
             <div class="inventory-wrapper">
                 <div class="left-data" id="player-left-data">
                     <div id="player-inv-label" class="inv-label">Inventory Label</div>
+                    <div class="info-div">
+                        <div class="money" id="bank"></div>
+                        <div class="money" id="black_money"></div>
+                        <div class="money" id="cash"></div>
+                    </div>
                     <div id="player-slots" class="inv-slots">
                         <span id="player-used">0</span>
                         <span>/</span>
                         <span id="player-max">10</span>
                     </div>
+
                     <div id="player-inv-id" class="inv-id">inv-000</div>
                 </div>
                 <div id="inventoryOne">
@@ -52,20 +58,9 @@
                 </div>
             </div>
             <div id="controls">
-                <div class="info-div">
-                    <div class="money">Player</div>
-                    <div class="money" id="bank"></div>
-                    <div class="money" id="cash"></div>
-                    <div class="money" id="black_money"></div>
-                </div>
                 <div class="money-controls-div">
                     <div class="control" id="take">Take</div>
                     <div class="control" id="store">Store</div>
-                </div>
-                <div class="second-info-div">
-                    <div class="money" id="second-title"></div>
-                    <div class="money" id="second-cash"></div>
-                    <div class="money" id="second-black_money"></div>
                 </div>
                 <div class="controls-div">
                     <input type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" class="control" id="count" value="0" onClick="this.select();">
@@ -87,12 +82,16 @@
             <div class="inventory-wrapper">
                 <div class="right-data" id="other-right-data">
                     <div id="other-inv-label" class="inv-label">Inventory Label</div>
-                    <div id="other-inv-id" class="inv-id">inv-000</div>
+                     <div class="second-info-div">
+                        <div class="money" id="second-cash"></div>
+                        <div class="money" id="second-black_money"></div>
+                    </div> 
                     <div id="other-slots" class="inv-slots">
                         <span id="other-used">0</span>
                         <span>/</span>
                         <span id="other-max">10</span>
                     </div>
+                    <div id="other-inv-id" class="inv-id">inv-000</div>
                 </div>
                 <div id="inventoryTwo">
                     
