@@ -88,6 +88,7 @@ end)
 --     end
 -- end)
 
+
 AddEventHandler('esx:playerLoaded', function(source)
     local player = ESX.GetPlayerFromId(source)
     --ensurePlayerInventory(player)
