@@ -1,5 +1,7 @@
 ESX = nil
 ESXLoaded = false
+IsLoaded = false
+isInInventory = false
 
 Citizen.CreateThread(function()
     while ESX == nil do
@@ -16,12 +18,31 @@ Citizen.CreateThread(function()
     ESX.PlayerData = ESX.GetPlayerData()
     ESXLoaded = true
 end)
+
+AddEventHandler('onResourceStart', function(resourceName)
+    if GetCurrentResourceName() == resourceName then
+        IsLoaded = true
+        print("LS-INVENTORYHUD:STARTED")
+    end
+end)
+
+AddEventHandler('onResourceStop', function(resourceName)
+    if resourceName == GetCurrentResourceName() then
+        print("LS-INVENTORYHUD:CLOSING ALL INVENTORY")
+        IsLoaded = false
+        closeInventory()
+        local id = ESX.PlayerData.identifier
+        local type = 'player'
+        print(ESX.PlayerData.identifier)
+        --saveInventory(ESX.PlayerData.identifier, 'player')
+        TriggerServerEvent("ls_inventoryhud:server:saveinventory",id,type)
+    end
+end)
+
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function()
     TriggerEvent('disc-inventoryhud:refreshInventory')
 end)
-
-
 
 RegisterNetEvent('esx:setJob')
 AddEventHandler('esx:setJob', function(job)
@@ -33,8 +54,6 @@ local dropSecondaryInventory = {
     owner = 'x123y123z123'
 }
 
-local isInInventory = false
-
 RegisterNUICallback('NUIFocusOff', function(data)
     closeInventory()
 end)
@@ -44,27 +63,16 @@ RegisterCommand('closeinv', function(source, args, raw)
 end)
 
 Citizen.CreateThread(function()
-    while true do
+    while IsLoaded do
         Citizen.Wait(0)
         if IsControlJustReleased(0, Config.OpenControl) and IsInputDisabled(0) then
-            local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1)))
-            local _, floorZ = GetGroundZFor_3dCoord(x, y, z)
-            dropSecondaryInventory.owner = getOwnerFromCoords(vector3(x, y, floorZ))
+            -- local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1)))
+            -- local _, floorZ = GetGroundZFor_3dCoord(x, y, z)
+            -- dropSecondaryInventory.owner = getOwnerFromCoords(vector3(x, y, floorZ))
             openInventory(dropSecondaryInventory)
         end
         if IsControlJustReleased(0, 73) then    --when putting hands up
             SetCurrentPedWeapon(GetPlayerPed(-1), GetHashKey('WEAPON_UNARMED'), true)
         end
     end
-end
-)
-
-AddEventHandler('onResourceStop', function(resource)
-    if resource == GetCurrentResourceName() then
-        closeInventory()
-    end
 end)
-
-
-
-

@@ -49,7 +49,7 @@ function ensurePlayerInventory(player)
         applyToInventory(player.identifier, 'player', function(inventory)
             for _, esxItem in pairs(player.getInventory()) do
                 if esxItem.count > 0 then
-                    --print('Adding ' .. esxItem.name .. ' ' .. esxItem.count)	mi ammazza il server sto script del cazzo
+                    --print('Adding ' .. esxItem.name .. ' ' .. esxItem.count)
                     local item = createItem(esxItem.name, esxItem.count)
                     addToInventory(item, 'player', inventory)
                 end

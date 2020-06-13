@@ -728,33 +728,46 @@ end)
 --     end
 -- end)
 
-RegisterCommand('saveInventories', function(src, args, raw)
-    if src == 0 then
-        saveInventories()
-    end
+-- RegisterCommand('saveInventories', function(src, args, raw)
+--     if src == 0 then
+--         saveInventories()
+--     end
+-- end)
+
+-- function saveInventories()
+--     for type, inventories in pairs(loadedInventories) do
+--         for identifier, inventory in pairs(inventories) do
+--             if inventory ~= nil then
+--                 if table.length(inventory) > 0 then
+--                     saveLoadedInventory(identifier, type, inventory)
+--                 else
+--                     deleteInventory(identifier, type)
+--                 end
+--             end
+--         end
+--     end
+--     RconPrint('[Disc-InventoryHud][SAVED] All Inventories' .. "\n")
+-- end
+
+RegisterNetEvent("ls_inventoryhud:server:saveinventory")
+AddEventHandler("ls_inventoryhud:server:saveinventory",function(id,type)
+    saveInventory(id,type)
 end)
 
-function saveInventories()
-    for type, inventories in pairs(loadedInventories) do
-        for identifier, inventory in pairs(inventories) do
-            if inventory ~= nil then
-                if table.length(inventory) > 0 then
-                    saveLoadedInventory(identifier, type, inventory)
-                else
-                    deleteInventory(identifier, type)
-                end
-            end
-        end
-    end
-    RconPrint('[Disc-InventoryHud][SAVED] All Inventories' .. "\n")
-end
-
 function saveInventory(identifier, type)
-    saveLoadedInventory(identifier, type, loadedInventories[type][identifier])
+    local checknull = json.encode(loadedInventories[type][identifier])
+    if checknull == null then
+        TriggerClientEvent('mythic_notify:client:SendAlert', source, { type = 'inform', text = 'Inventario Nullo:Inizializzazione', style = { ['background-color'] = '#ffffff', ['color'] = '#000000' } })
+        loadInventory(identifier,type,function()
+        end)
+        saveLoadedInventory(identifier, type, loadedInventories[type][identifier])
+    else
+        saveLoadedInventory(identifier, type, loadedInventories[type][identifier])
+    end
 end
 
 function saveLoadedInventory(identifier, type, data)
-    --if table.length(data) > 0 then
+    if table.length(data) > 0 then
         MySQL.Async.execute('UPDATE disc_inventory SET data = @data WHERE owner = @owner AND type = @type', {
             ['@owner'] = identifier,
             ['@type'] = type,
@@ -766,7 +779,7 @@ function saveLoadedInventory(identifier, type, data)
             loadedInventories[type][identifier] = nil
             TriggerEvent('disc-inventoryhud:savedInventory', identifier, type, data)
         end)
-    --end
+    end
 end
 
 function createInventory(identifier, type, data)

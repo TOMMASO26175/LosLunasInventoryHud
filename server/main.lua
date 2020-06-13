@@ -81,18 +81,18 @@ end)
 --     end
 -- end)
 
-AddEventHandler('esx:playerLoaded', function(data)
-    local player = ESX.GetPlayerFromId(data)
+-- Citizen.CreateThread(function()
+--     local players = ESX.GetPlayers()
+--     for k, v in ipairs(players) do
+--         ensurePlayerInventory(ESX.GetPlayerFromId(v))
+--     end
+-- end)
+
+AddEventHandler('esx:playerLoaded', function(source)
+    local player = ESX.GetPlayerFromId(source)
     --ensurePlayerInventory(player)
     loadInventory(player.identifier, 'player', function()
     end)
-end)
-
-Citizen.CreateThread(function()
-    local players = ESX.GetPlayers()
-    for k, v in ipairs(players) do
-        ensurePlayerInventory(ESX.GetPlayerFromId(v))
-    end
 end)
 
 AddEventHandler('esx:playerDropped', function(source)

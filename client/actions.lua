@@ -14,20 +14,20 @@ RegisterNUICallback('UseItem', function(data)
     })
 end)
 
-RegisterNUICallback('RicaricaAmmo', function(data)
-    if isWeapon(data.item.id) then
-        currentWeaponSlot = data.slot
-    end
-    TriggerServerEvent('disc-inventoryhud:ricaricaammo', data.item, 1)  --al posto di questo 1 ci deve essere in numero di munizioni notifica
-    TriggerServerEvent("esx:useItem", data.item.id) --cuore del problema    messaggio in player.lua server
-    Citizen.Trace(data.item.id) --nome es ammo_pistol data.item è una tabella non so quali siano le colonne 
-    TriggerEvent('disc-inventoryhud:refreshInventory')
-     data.item.msg = _U('used')
-     data.item.qty = 1
-     TriggerEvent('disc-inventoryhud:showItemUse', {	--messaggio oggetto usato
-          data.item
-      })
-end)
+-- RegisterNUICallback('RicaricaAmmo', function(data)
+--     if isWeapon(data.item.id) then
+--         currentWeaponSlot = data.slot
+--     end
+--     TriggerServerEvent('disc-inventoryhud:ricaricaammo', data.item, 1)  --al posto di questo 1 ci deve essere in numero di munizioni notifica
+--     TriggerServerEvent("esx:useItem", data.item.id) --cuore del problema    messaggio in player.lua server
+--     Citizen.Trace(data.item.id) --nome es ammo_pistol data.item è una tabella non so quali siano le colonne 
+--     TriggerEvent('disc-inventoryhud:refreshInventory')
+--      data.item.msg = _U('used')
+--      data.item.qty = 1
+--      TriggerEvent('disc-inventoryhud:showItemUse', {	--messaggio oggetto usato
+--           data.item
+--       })
+-- end)
 
 RegisterNUICallback('AmmoReload',function(data)
     print(data.quantity)
@@ -43,7 +43,7 @@ local keys = {  --1,2,3,4,5
 }
 
 Citizen.CreateThread(function() --fa vedere la barra rapida e fa usare gli oggetti
-    while true do
+    while IsLoaded do
         Citizen.Wait(0)
         SetCamEffect(0)
         BlockWeaponWheelThisFrame()
