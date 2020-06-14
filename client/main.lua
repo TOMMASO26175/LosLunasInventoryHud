@@ -42,6 +42,7 @@ end)
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function()
     TriggerEvent('disc-inventoryhud:refreshInventory')
+    IsLoaded = true
 end)
 
 RegisterNetEvent('esx:setJob')
@@ -63,6 +64,10 @@ RegisterCommand('closeinv', function(source, args, raw)
 end)
 
 Citizen.CreateThread(function()
+    while not IsLoaded do
+        Citizen.Wait(10)
+    end
+
     while IsLoaded do
         Citizen.Wait(0)
         if IsControlJustReleased(0, Config.OpenControl) and IsInputDisabled(0) then

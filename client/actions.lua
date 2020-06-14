@@ -43,6 +43,10 @@ local keys = {  --1,2,3,4,5
 }
 
 Citizen.CreateThread(function() --fa vedere la barra rapida e fa usare gli oggetti
+    while not IsLoaded do
+        Citizen.Wait(10)
+    end
+
     while IsLoaded do
         Citizen.Wait(0)
         SetCamEffect(0)
