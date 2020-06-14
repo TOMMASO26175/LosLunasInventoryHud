@@ -134,6 +134,7 @@ AddEventHandler('esx:onRemoveInventoryItem', function(source, item, count)
                     else
                         removeItemFromSlot(inventory, removingItem.slot, count)
                         impendingRemovals[source][k] = nil
+                        print("1")
                         TriggerClientEvent('disc-inventoryhud:refreshInventory', source)
                     end
                     return

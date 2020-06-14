@@ -168,6 +168,9 @@ function closeInventory()
     if secondInventory ~= nil then
         TriggerServerEvent('disc-inventoryhud:closeInventory', secondInventory)
     end
+    local id = ESX.PlayerData.identifier
+    local type = 'player'
+    TriggerServerEvent('ls_inventoryhud:server:saveinventorychanged',id,type)
 end
 
 RegisterNetEvent('disc-inventoryhud:openInventory')

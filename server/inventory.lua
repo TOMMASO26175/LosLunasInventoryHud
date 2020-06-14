@@ -62,6 +62,7 @@ AddEventHandler("disc-inventoryhud:MoveToEmpty", function(data)
 
     if data.originOwner == data.destinationOwner and data.originTier.name == data.destinationTier.name then
         local originInvHandler = InvType[data.originTier.name]
+        --print(data.originOwner)
         originInvHandler.applyToInventory(data.originOwner, function(inventory)
             inventory[tostring(data.destinationSlot)] = inventory[tostring(data.originSlot)]
             inventory[tostring(data.originSlot)] = nil
@@ -749,12 +750,34 @@ end)
 --     RconPrint('[Disc-InventoryHud][SAVED] All Inventories' .. "\n")
 -- end
 
+-- RegisterNetEvent('ls_inventoryhud:server:savelocalinv')
+-- AddEventHandler('ls_inventoryhud:server:savelocalinv',function (id,type,slot)
+--     local invtest = InvType(type)
+--     invtest.applyToInventory(id, function(inventory)
+--         inventory[tostring(slot)] = nil
+--         invtest.saveInventory(id,originInventory)
+
+--         TriggerEvent('disc-inventoryhud:refreshInventory', id)
+--     end)
+-- end)
+
 RegisterNetEvent("ls_inventoryhud:server:saveinventory")
 AddEventHandler("ls_inventoryhud:server:saveinventory",function(id,type)
     saveInventory(id,type)
 end)
 
+Changed = false
+
+RegisterNetEvent("ls_inventoryhud:server:saveinventorychanged")
+AddEventHandler("ls_inventoryhud:server:saveinventorychanged",function(id,type)
+    if Changed then
+        saveInventory(id,type)
+        Changed = false
+    end
+end)
+
 function saveInventory(identifier, type)
+    print("salvando")
     local checknull = json.encode(loadedInventories[type][identifier])
     if checknull == null then
         TriggerClientEvent('mythic_notify:client:SendAlert', source, { type = 'inform', text = 'Inventario Nullo:Inizializzazione', style = { ['background-color'] = '#ffffff', ['color'] = '#000000' } })
@@ -849,13 +872,15 @@ end
 
 function applyToInventory(identifier, type, f)
     if loadedInventories[type][identifier] ~= nil then
-        --print('Running F')
         f(loadedInventories[type][identifier])
+        print(json.encode(loadedInventories[type][identifier]))
     else
         loadInventory(identifier, type, function()
             applyToInventory(identifier, type, f)
         end)
     end
+    Changed = true
+    --drops
     if loadedInventories[type][identifier] and table.length(loadedInventories[type][identifier]) > 0 then
         TriggerEvent('disc-inventoryhud:modifiedInventory', identifier, type, loadedInventories[type][identifier])
     else
