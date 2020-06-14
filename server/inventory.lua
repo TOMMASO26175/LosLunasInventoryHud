@@ -66,7 +66,7 @@ AddEventHandler("disc-inventoryhud:MoveToEmpty", function(data)
         originInvHandler.applyToInventory(data.originOwner, function(inventory)
             inventory[tostring(data.destinationSlot)] = inventory[tostring(data.originSlot)]
             inventory[tostring(data.originSlot)] = nil
-            originInvHandler.saveInventory(data.originOwner, originInventory)
+            --originInvHandler.saveInventory(data.originOwner, originInventory)
 
             TriggerEvent('disc-inventoryhud:refreshInventory', data.originOwner)
         end)
@@ -97,8 +97,8 @@ AddEventHandler("disc-inventoryhud:MoveToEmpty", function(data)
                 destinationInventory[tostring(data.destinationSlot)] = originInventory[tostring(data.originSlot)]
                 originInventory[tostring(data.originSlot)] = nil
 
-                destinationInvHandler.saveInventory(data.destinationOwner, destinationInventory)
-                originInvHandler.saveInventory(data.originOwner, originInventory)
+                --destinationInvHandler.saveInventory(data.destinationOwner, destinationInventory)
+                --originInvHandler.saveInventory(data.originOwner, originInventory)
 
                 if data.originTier.name == 'player' then
                     data.originItem.block = true
@@ -766,6 +766,11 @@ AddEventHandler("ls_inventoryhud:server:saveinventory",function(id,type)
     saveInventory(id,type)
 end)
 
+RegisterNetEvent('ls_inventoryhud:server:storagesave')
+AddEventHandler('ls_inventoryhud:server:storagesave',function(id,type)
+    saveInventory(id,type)
+end)
+
 Changed = false
 
 RegisterNetEvent("ls_inventoryhud:server:saveinventorychanged")
@@ -871,15 +876,29 @@ function getInventory(identifier, type, cb)
 end
 
 function applyToInventory(identifier, type, f)
-    if loadedInventories[type][identifier] ~= nil then
-        f(loadedInventories[type][identifier])
-        print(json.encode(loadedInventories[type][identifier]))
+    print(type)
+    if type == 'player' then
+        if loadedInventories[type][identifier] ~= nil then
+            f(loadedInventories[type][identifier])
+            print(json.encode(loadedInventories[type][identifier]))
+        else
+            loadInventory(identifier, type, function()
+                applyToInventory(identifier, type, f)
+            end)
+        end
+        Changed = true
     else
-        loadInventory(identifier, type, function()
-            applyToInventory(identifier, type, f)
-        end)
+        if loadedInventories[type][identifier] ~= nil then
+            f(loadedInventories[type][identifier])
+            print(json.encode(loadedInventories[type][identifier]))
+        else
+            loadInventory(identifier, type, function()
+                applyToInventory(identifier, type, f)
+            end)
+        end
+        TriggerEvent('ls_inventoryhud:server:storagesave',identifier,type)
+        --StorageChange = true
     end
-    Changed = true
     --drops
     if loadedInventories[type][identifier] and table.length(loadedInventories[type][identifier]) > 0 then
         TriggerEvent('disc-inventoryhud:modifiedInventory', identifier, type, loadedInventories[type][identifier])
