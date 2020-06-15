@@ -30,7 +30,7 @@ AddEventHandler('onResourceStop', function(resourceName)
     if resourceName == GetCurrentResourceName() then
         print("LS-INVENTORYHUD:CLOSING ALL INVENTORY")
         IsLoaded = false
-        closeInventory()
+        CloseNoSaveInv()
         local id = ESX.PlayerData.identifier
         local type = 'player'
         print(ESX.PlayerData.identifier)

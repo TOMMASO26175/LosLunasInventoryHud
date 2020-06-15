@@ -763,7 +763,10 @@ end)
 
 RegisterNetEvent("ls_inventoryhud:server:saveinventory")
 AddEventHandler("ls_inventoryhud:server:saveinventory",function(id,type)
-    saveInventory(id,type)
+    local checktable = json.encode(loadedInventories[type][id])
+    if not checktable == "null" or not loadedInventories[type][id] == nil then
+        saveInventory(id,type)
+    end
 end)
 
 RegisterNetEvent('ls_inventoryhud:server:storagesave')
@@ -784,10 +787,10 @@ end)
 function saveInventory(identifier, type)
     print("salvando")
     local checknull = json.encode(loadedInventories[type][identifier])
-    if checknull == null then
+    --print(checknull)
+    if checknull == "null" then
         TriggerClientEvent('mythic_notify:client:SendAlert', source, { type = 'inform', text = 'Inventario Nullo:Inizializzazione', style = { ['background-color'] = '#ffffff', ['color'] = '#000000' } })
-        loadInventory(identifier,type,function()
-        end)
+        loadedInventories[type][identifier] = {}
         saveLoadedInventory(identifier, type, loadedInventories[type][identifier])
     else
         saveLoadedInventory(identifier, type, loadedInventories[type][identifier])
@@ -795,7 +798,11 @@ function saveInventory(identifier, type)
 end
 
 function saveLoadedInventory(identifier, type, data)
-    if table.length(data) > 0 then
+    --print(json.encode(data))
+    local jsondata = json.encode(data)
+    if jsondata == "null" then
+        print("qualcosa è andato storto usa /ensureInv")
+    else
         MySQL.Async.execute('UPDATE disc_inventory SET data = @data WHERE owner = @owner AND type = @type', {
             ['@owner'] = identifier,
             ['@type'] = type,

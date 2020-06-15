@@ -173,6 +173,19 @@ function closeInventory()
     TriggerServerEvent('ls_inventoryhud:server:saveinventorychanged',id,type)
 end
 
+function CloseNoSaveInv()
+    isInInventory = false
+    SendNUIMessage({ action = "hide", type = 'primary' })
+    SetNuiFocus(false, false)
+    TriggerServerEvent('disc-inventoryhud:closeInventory', {
+        type = 'player',
+        owner = ESX.GetPlayerData().identifier
+    })
+    if secondInventory ~= nil then
+        TriggerServerEvent('disc-inventoryhud:closeInventory', secondInventory)
+    end
+end
+
 RegisterNetEvent('disc-inventoryhud:openInventory')
 AddEventHandler('disc-inventoryhud:openInventory', function(sI)
     openInventory(sI)
