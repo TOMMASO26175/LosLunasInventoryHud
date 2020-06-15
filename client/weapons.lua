@@ -54,21 +54,21 @@ function GiveWeapon(weapon)
     end, hash)
 end
 
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(10)
-        local player = PlayerPedId()
-        if IsPedShooting(player) then
-            for k, v in pairs(Config.Throwables) do
-                if k == currentWeapon then
-                    print('Taking Weapon')
-                    ESX.TriggerServerCallback('disc-base:takePlayerItem', function(removed)
-                        if removed then
-                            TriggerEvent('disc-inventoryhud:removeCurrentWeapon')
-                        end
-                    end, currentWeapon, 1)
-                end
-            end
-        end
-    end
-end)
+-- Citizen.CreateThread(function()
+--     while true do
+--         Citizen.Wait(10)
+--         local player = PlayerPedId()
+--         if IsPedShooting(player) then
+--             for k, v in pairs(Config.Throwables) do
+--                 if k == currentWeapon then
+--                     print('Taking Weapon')
+--                     ESX.TriggerServerCallback('disc-base:takePlayerItem', function(removed)
+--                         if removed then
+--                             TriggerEvent('disc-inventoryhud:removeCurrentWeapon')
+--                         end
+--                     end, currentWeapon, 1)
+--                 end
+--             end
+--         end
+--     end
+-- end)

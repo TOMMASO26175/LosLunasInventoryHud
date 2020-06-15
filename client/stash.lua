@@ -28,16 +28,15 @@ Citizen.CreateThread(function()
 end)
 
 --test
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
-        local player = GetPlayerPed(-1)
-        local coords = GetEntityCoords(player)
-        for k, v in pairs(Config.Stash) do
-            if GetDistanceBetweenCoords(coords, v.coords, true) < 3.0 then
-                ESX.Game.Utils.DrawText3D(vector3(v.coords), "[~g~E~w~] Open Storage", 0.6)
-            end
-        end
-    end
-
-end)
+-- Citizen.CreateThread(function()
+--     while true do
+--         Citizen.Wait(0)
+--         local player = GetPlayerPed(-1)
+--         local coords = GetEntityCoords(player)
+--         for k, v in pairs(Config.Stash) do
+--             if GetDistanceBetweenCoords(coords, v.coords, true) < 3.0 then
+--                 ESX.Game.Utils.DrawText3D(vector3(v.coords), "[~g~E~w~] Open Storage", 0.6)
+--             end
+--         end
+--     end
+-- end)

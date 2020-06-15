@@ -4,7 +4,11 @@ local gloveBoxSecondaryInventory = {
 }
 
 Citizen.CreateThread(function()
-    while true do
+    while not IsLoaded do
+        Citizen.Wait(10)
+    end
+
+    while IsLoaded do
         Citizen.Wait(0)
         local playerPed = GetPlayerPed(-1)
         if IsControlJustReleased(0, Config.TrunkOpenControl) and IsPedInAnyVehicle(playerPed) then

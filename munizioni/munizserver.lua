@@ -1,10 +1,4 @@
-ESX = nil
 ItemQuantity = 1
-
-TriggerEvent('esx:getSharedObject', function(obj)
-    ESX = obj
-end)
-
 
 RegisterNetEvent('rimuovimunizionidoporicarica')
 AddEventHandler('rimuovimunizionidoporicarica', function(ammo,quantity)

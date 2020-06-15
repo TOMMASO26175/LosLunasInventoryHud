@@ -6,7 +6,11 @@ local trunkSecondaryInventory = {
 local openVehicle
 
 Citizen.CreateThread(function()
-    while true do
+    while not IsLoaded do
+        Citizen.Wait(10)
+    end
+    
+    while IsLoaded do
         Citizen.Wait(0)
         if IsControlJustReleased(0, Config.TrunkOpenControl) then
             local playerPed = PlayerPedId()

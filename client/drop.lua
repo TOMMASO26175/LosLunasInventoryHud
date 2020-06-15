@@ -2,7 +2,11 @@ local serverDrops = {}
 local drops = {}
 
 Citizen.CreateThread(function()
-    while true do
+    while not IsLoaded do
+        Citizen.Wait(10)
+    end
+
+    while IsLoaded do
         Citizen.Wait(1000)
         local coords = GetEntityCoords(GetPlayerPed(-1))
         for k, v in pairs(serverDrops) do
