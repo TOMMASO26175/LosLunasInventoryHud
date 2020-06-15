@@ -152,7 +152,7 @@ AddEventHandler("disc-inventoryhud:SwapItems", function(data)
             local tempItem = inventory[tostring(data.originSlot)]
             inventory[tostring(data.originSlot)] = inventory[tostring(data.destinationSlot)]
             inventory[tostring(data.destinationSlot)] = tempItem
-            originInvHandler.saveInventory(data.originOwner, originInventory)
+            --originInvHandler.saveInventory(data.originOwner, originInventory)
 
             TriggerEvent('disc-inventoryhud:refreshInventory', data.originOwner)
         end)
@@ -165,8 +165,8 @@ AddEventHandler("disc-inventoryhud:SwapItems", function(data)
                 originInventory[tostring(data.originSlot)] = destinationInventory[tostring(data.destinationSlot)]
                 destinationInventory[tostring(data.destinationSlot)] = tempItem
 
-                destinationInvHandler.saveInventory(data.destinationOwner, destinationInventory)
-                originInvHandler.saveInventory(data.originOwner, originInventory)
+                --destinationInvHandler.saveInventory(data.destinationOwner, destinationInventory)
+                --originInvHandler.saveInventory(data.originOwner, originInventory)
 
                 if data.originTier.name == 'player' then
                     data.originItem.block = true
@@ -229,7 +229,7 @@ AddEventHandler("disc-inventoryhud:CombineStack", function(data)
         originInvHandler.applyToInventory(data.originOwner, function(inventory)
             inventory[tostring(data.originSlot)] = nil
             inventory[tostring(data.destinationSlot)].count = data.destinationQty
-            originInvHandler.saveInventory(data.originOwner, originInventory)
+            --originInvHandler.saveInventory(data.originOwner, originInventory)
 
             TriggerEvent('disc-inventoryhud:refreshInventory', data.originOwner)
         end)
@@ -241,8 +241,8 @@ AddEventHandler("disc-inventoryhud:CombineStack", function(data)
                 originInventory[tostring(data.originSlot)] = nil
                 destinationInventory[tostring(data.destinationSlot)].count = data.destinationQty
 
-                destinationInvHandler.saveInventory(data.destinationOwner, destinationInventory)
-                originInvHandler.saveInventory(data.originOwner, originInventory)
+                --destinationInvHandler.saveInventory(data.destinationOwner, destinationInventory)
+                --originInvHandler.saveInventory(data.originOwner, originInventory)
 
                 if data.originTier.name == 'player' then
                     data.originItem.block = true
@@ -299,7 +299,7 @@ AddEventHandler("disc-inventoryhud:TopoffStack", function(data)
         originInvHandler.applyToInventory(data.originOwner, function(inventory)
             inventory[tostring(data.originSlot)].count = data.originItem.qty
             inventory[tostring(data.destinationSlot)].count = data.destinationItem.qty
-            originInvHandler.saveInventory(data.originOwner, originInventory)
+            --originInvHandler.saveInventory(data.originOwner, originInventory)
 
             print('Refreshing')
             TriggerEvent('disc-inventoryhud:refreshInventory', data.originOwner)
@@ -312,8 +312,8 @@ AddEventHandler("disc-inventoryhud:TopoffStack", function(data)
         originInventory[tostring(data.originSlot)].count = data.originItem.qty
         destinationInventory[tostring(data.destinationSlot)].count = data.destinationItem.qty
         
-        destinationInvHandler.saveInventory(data.destinationOwner, destinationInventory)
-        originInvHandler.saveInventory(data.originOwner, originInventory)
+        --destinationInvHandler.saveInventory(data.destinationOwner, destinationInventory)
+        --originInvHandler.saveInventory(data.originOwner, originInventory)
 
                 if data.originTier.name == 'player' then
                     data.originItem.block = true
@@ -374,7 +374,7 @@ AddEventHandler("disc-inventoryhud:EmptySplitStack", function(data)
                 name = item.name,
                 count = data.moveQty
             }
-            originInvHandler.saveInventory(data.originOwner, originInventory)
+            --originInvHandler.saveInventory(data.originOwner, originInventory)
 
             TriggerEvent('disc-inventoryhud:refreshInventory', data.originOwner)
         end)
@@ -389,8 +389,8 @@ AddEventHandler("disc-inventoryhud:EmptySplitStack", function(data)
                     name = item.name,
                     count = data.moveQty
                 }
-                destinationInvHandler.saveInventory(data.destinationOwner, destinationInventory)
-				originInvHandler.saveInventory(data.originOwner, originInventory)
+                --destinationInvHandler.saveInventory(data.destinationOwner, destinationInventory)
+				--originInvHandler.saveInventory(data.originOwner, originInventory)
 
                 if data.originTier.name == 'player' then
                     local originPlayer = ESX.GetPlayerFromIdentifier(data.originOwner)
@@ -445,7 +445,7 @@ AddEventHandler("disc-inventoryhud:SplitStack", function(data)
         originInvHandler.applyToInventory(data.originOwner, function(inventory)
             inventory[tostring(data.originSlot)].count = inventory[tostring(data.originSlot)].count - data.moveQty
             inventory[tostring(data.destinationSlot)].count = inventory[tostring(data.destinationSlot)].count + data.moveQty
-            originInvHandler.saveInventory(data.originOwner, originInventory)
+            --originInvHandler.saveInventory(data.originOwner, originInventory)
 
             TriggerEvent('disc-inventoryhud:refreshInventory', data.originOwner)
         end)
@@ -457,8 +457,8 @@ AddEventHandler("disc-inventoryhud:SplitStack", function(data)
                 originInventory[tostring(data.originSlot)].count = originInventory[tostring(data.originSlot)].count - data.moveQty
                 destinationInventory[tostring(data.destinationSlot)].count = destinationInventory[tostring(data.destinationSlot)].count + data.moveQty
                 
-                destinationInvHandler.saveInventory(data.destinationOwner, destinationInventory)
-                originInvHandler.saveInventory(data.originOwner, originInventory)
+                --destinationInvHandler.saveInventory(data.destinationOwner, destinationInventory)
+                --originInvHandler.saveInventory(data.originOwner, originInventory)
                 
                 if data.originTier.name == 'player' then
                     data.originItem.block = true
@@ -787,7 +787,6 @@ end)
 function saveInventory(identifier, type)
     print("salvando")
     local checknull = json.encode(loadedInventories[type][identifier])
-    --print(checknull)
     if checknull == "null" then
         TriggerClientEvent('mythic_notify:client:SendAlert', source, { type = 'inform', text = 'Inventario Nullo:Inizializzazione', style = { ['background-color'] = '#ffffff', ['color'] = '#000000' } })
         loadedInventories[type][identifier] = {}
