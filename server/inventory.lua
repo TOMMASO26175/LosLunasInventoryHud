@@ -764,7 +764,9 @@ end)
 RegisterNetEvent("ls_inventoryhud:server:saveinventory")
 AddEventHandler("ls_inventoryhud:server:saveinventory",function(id,type)
     local checktable = json.encode(loadedInventories[type][id])
+    print("ok")
     if not checktable == "null" or not loadedInventories[type][id] == nil then
+        print("non nullo")
         saveInventory(id,type)
     end
 end)

@@ -98,6 +98,7 @@ end)
 
 AddEventHandler('esx:playerDropped', function(source)
     local player = ESX.GetPlayerFromId(source)
-    saveInventory(player.identifier, 'player')
+    --saveInventory(player.identifier, 'player')
+    TriggerEvent("ls_inventoryhud:server:saveinventory",player.identifier,'player')
     closeAllOpenInventoriesForSource(source)
 end)
