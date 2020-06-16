@@ -69,11 +69,11 @@ Citizen.CreateThread(function()
     end
 
     while IsLoaded do
-        Citizen.Wait(0)
+        Citizen.Wait(10)
         if IsControlJustReleased(0, Config.OpenControl) and IsInputDisabled(0) then
-            -- local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1)))
-            -- local _, floorZ = GetGroundZFor_3dCoord(x, y, z)
-            -- dropSecondaryInventory.owner = getOwnerFromCoords(vector3(x, y, floorZ))
+            local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1)))
+            local _, floorZ = GetGroundZFor_3dCoord(x, y, z)
+            dropSecondaryInventory.owner = getOwnerFromCoords(vector3(x, y, floorZ))
             openInventory(dropSecondaryInventory)
         end
         if IsControlJustReleased(0, 73) then    --when putting hands up
