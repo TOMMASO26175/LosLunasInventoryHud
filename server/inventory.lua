@@ -896,7 +896,6 @@ function applyToInventory(identifier, type, f)
         end
         Changed = true
     elseif type == 'drop' then
-        --print("sono un drop")
         if loadedInventories[type][identifier] ~= nil then
             f(loadedInventories[type][identifier])
             print(json.encode(loadedInventories[type][identifier]))
@@ -905,9 +904,6 @@ function applyToInventory(identifier, type, f)
                 applyToInventory(identifier,type,f)
             end)
         end
-        --local dropstable = {}
-        --dropstable[identifier] = loadedInventories[type][identifier]
-        --TriggerClientEvent()
         if loadedInventories[type][identifier] and table.length(loadedInventories[type][identifier]) > 0 then
             TriggerEvent('disc-inventoryhud:modifiedInventory', identifier, type, loadedInventories[type][identifier])
         else
@@ -925,7 +921,6 @@ function applyToInventory(identifier, type, f)
         TriggerEvent('ls_inventoryhud:server:storagesave',identifier,type)
         --StorageChange = true
     end
-    --drops
 end
 
 function loadInventory(identifier, type, cb)
