@@ -1,6 +1,5 @@
 local serverDrops = {}
 local drops = {}
-local spawntime = 0
 Citizen.CreateThread(function()
     while not IsLoaded do
         Citizen.Wait(10)
@@ -8,18 +7,23 @@ Citizen.CreateThread(function()
 
     while IsLoaded do
         Citizen.Wait(1000)
-        local coords = GetEntityCoords(GetPlayerPed(-1))
-        for k, v in pairs(serverDrops) do
-            local dropCoords = getCoordsFromOwner(k)
-            if GetDistanceBetweenCoords(dropCoords.x, dropCoords.y, dropCoords.z, coords.x, coords.y, coords.z, true) < 20 then
-               if drops[k] then
-                    drops[k].active = true
-                else
-                    drops[k] = {
-                        name = k,
-                        coords = dropCoords,
-                        active = true
-                    }
+        if table.length(serverDrops) > 0 then
+            local coords = GetEntityCoords(GetPlayerPed(-1))
+            for k, _ in pairs(serverDrops) do
+                local dropCoords = getCoordsFromOwner(k)
+                local dist = #(vector3(dropCoords.x, dropCoords.y, dropCoords.z) - coords)
+                if dist < 10.0 then
+                    if drops[k] then
+                        drops[k].active = true
+                    else
+                        drops[k] = {
+                            name = k,
+                            coords = dropCoords,
+                            active = true,
+                            spwbag = false,
+                            propname = nil,
+                        }
+                    end
                 end
             end
         end
@@ -27,23 +31,14 @@ Citizen.CreateThread(function()
         for k, v in pairs(drops) do
             if v.active then
                 local x, y, z = table.unpack(v.coords)
-                -- local marker = {
-                --     name = v.name .. '_drop',
-                --     type = 2,
-                --     coords = vector3(x, y, z + 1.0),
-                --     rotate = false,
-                --     colour = { r = 255, b = 255, g = 255 },
-                --     size = vector3(0.5, 0.5, 0.5),
-                -- }
                 drops[k].active = false
-                --TriggerEvent('disc-base:registerMarker', marker)
-                --ESX.Game.Utils.DrawText3D(marker.coords, "[~g~E~w~] Open Storage", 0.6)
-                if spawntime == 0 then
-                    SpawnObj(x,y,z)
-                    spawntime = 1
+                if not drops[k].spwbag then
+                    drops[k].propname = SpawnObj(x,y,z,drops[k].name)
+                    drops[k].spwbag = true
                 end
+                v.spwbag = true
             else
-                --TriggerEvent('disc-base:removeMarker', v.name .. '_drop')
+                DeleteObject(drops[k].propname)
                 drops[k] = nil
             end
         end
@@ -52,13 +47,21 @@ end)
 
 RegisterNetEvent('disc-inventoryhud:updateDrops')
 AddEventHandler('disc-inventoryhud:updateDrops', function(newDrops)
-    print('Updating drops')
+    print('Aggiornando Drops')
     serverDrops = newDrops
 end)
 
-function SpawnObj(x,y,z)
-    local model   = 'prop_cs_duffel_01'
+function SpawnObj(x,y,z,bag)
+    local model   = 'prop_cs_heist_bag_02'
     local hash = GetHashKey(model)
-    local bag = CreateObject(hash, x,y,z, true, true, true)
+    bag = CreateObject(hash, x,y,z, true, true, true)
+    local heading = GetEntityHeading(bag)
+    SetEntityHeading(bag, heading)
     PlaceObjectOnGroundProperly(bag)
+    return bag
+    --SetEntityAsMissionEntity(bag)
+end
+
+function RemoveObj(obj)
+    DeleteObject(obj)
 end

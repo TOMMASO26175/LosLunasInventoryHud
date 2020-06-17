@@ -40,6 +40,7 @@ end)
 RegisterServerEvent('disc-inventoryhud:modifiedInventory')
 AddEventHandler('disc-inventoryhud:modifiedInventory', function(identifier, type, data)
     if type == 'drop' then
+        --print(identifier)
         drops[identifier] = data
         TriggerClientEvent('disc-inventoryhud:updateDrops', -1, drops)
     end
