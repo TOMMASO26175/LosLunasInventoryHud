@@ -31,6 +31,8 @@ failAudio.controls = false;
 failAudio.volume = 0.1;
 failAudio.src = './fail2.wav';
 
+var cursItemData = null
+
 window.addEventListener("message", function (event) {
     if (event.data.action == "display") {
         type = event.data.type;
@@ -678,27 +680,44 @@ $(document).ready(function () {
             if(!dragging){
                 if(itemData.usable && !(itemData.itemId.startsWith('WEAPON') || itemData.itemId.startsWith('ammo'))){
                     if(e.which == 3){
-                        $('.seleziona').find('#usableitem').css({position:'absolute',top:e.pageY, left: e.pageX}).html("Usa").slideDown(); 
-                        $('#usableitem').click(function(){
-                            $('.seleziona').find('#usableitem').hide();
-
-                            InventoryLog('Using ' + itemData.label + ' and Close ' + itemData.closeUi);
-                            $.post("http://disc-inventoryhud/UseItem", JSON.stringify({
-                            owner: $(this).parent().data('invOwner'),
-                            slot: $(this).data('slot'),
-                            item: itemData
-                            }));
-                            if (itemData.closeUi) {
-                                closeInventory();
-                            }
-                            successAudio.play();
-                            EndDragging();
-                        });
+                        $('.seleziona').find('#usableitem').css({position:'absolute',top:e.pageY, left: e.pageX}).html("Usa").slideDown();
+                        GetData(itemData)
+                        cursItemData = itemData
                     }        
                 }
             }
         }
     });
+
+    function GetData(){
+        $('#inventoryOne').on('mouseenter mousedown', '.slot',function(){
+            var itemData = $(this).find('.item').data('item');
+            return itemData;
+        });
+    }
+
+    $('#usableitem').on("click",function(){
+        var itemData = cursItemData
+        InventoryLog("click")
+        $('.seleziona').find('#usableitem').hide();
+        InventoryLog('Using ' + itemData.label + ' and Close ' + itemData.closeUi);
+        $.post("http://disc-inventoryhud/UseItem", JSON.stringify({
+        owner: $(this).parent().data('invOwner'),
+        slot: $(this).data('slot'),
+        item: itemData
+        }));
+        if (itemData.closeUi) {
+            closeInventory();
+        }
+        successAudio.play();
+        EndDragging();
+        cursItemData = null
+    });
+
+    // $('#usableitem').on('mouseenter',function(){
+
+    // });
+
     // $('#inventoryOne, #inventoryTwo').on('mouseleave', '.slot', function () {
     //     $('.seleziona').hide();
     //     $('.seleziona').find('.oggetto').html("");
