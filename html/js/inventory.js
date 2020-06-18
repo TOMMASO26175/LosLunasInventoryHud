@@ -584,7 +584,9 @@ $(document).ready(function () {
         //if(e.which == 3){
         var itemData = $(this).find('.item').data('item');
         //InventoryLog(itemData.itemId)
-        itemDataD = $(draggingItem).find('.item').data("item");
+        if(draggingItem){
+            itemDataD = $(draggingItem).find('.item').data("item");
+        }
         if(dragging && itemDataD.itemId.startsWith('ammo')){
             //InventoryLog(itemData.itemId)
             if(itemData.itemId.startsWith('WEAPON')){
@@ -670,6 +672,20 @@ $(document).ready(function () {
                     });
                 }
             }
+        }
+        if(itemData.usable && !(itemDataD.itemId.startsWith('WEAPON') || itemDataD.itemId.startsWith('ammo'))){
+            if(e.which == 3){
+                $('.seleziona').find('#usableitem').css({position:'absolute',top:e.pageY, left: e.pageX}).html("Usa").slideDown(); 
+                $('#usableitem').click(function(){
+                    $('.seleziona').find('#usableitem').hide();
+                    InventoryLog('Using ' + itemData.label);
+                    $.post("http://disc-inventoryhud/UseItem", JSON.stringify({
+                    owner: $(draggingItem).parent().data('invOwner'),
+                    slot: $(draggingItem).data('slot'),
+                    item: itemData
+                    }));    
+                });
+            }        
         }
     });
     // $('#inventoryOne, #inventoryTwo').on('mouseleave', '.slot', function () {

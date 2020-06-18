@@ -59,7 +59,7 @@ body {
             .oggetto{
                 z-index: 2000;
                 display: block;
-                border: solid white;
+                border: solid $border;
                 border-width: 1px 1px;
                 border-radius: 0;
                 background: $primary;

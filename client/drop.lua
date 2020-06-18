@@ -45,6 +45,20 @@ Citizen.CreateThread(function()
     end
 end)
 
+--WHEN SERVER WILL RUN UNCOMMENT
+-- Citizen.CreateThread(function ()
+--     while not IsLoaded do
+--         Citizen.Wait(10)
+--     end
+--     while IsLoaded do
+--         Citizen.Wait(600000)
+--         for k, _ in pairs(drops) do
+--             DeleteObject(drops[k].propname)
+--             drops[k] = nil
+--         end
+--     end
+-- end)
+
 RegisterNetEvent('disc-inventoryhud:updateDrops')
 AddEventHandler('disc-inventoryhud:updateDrops', function(newDrops)
     print('Aggiornando Drops')
