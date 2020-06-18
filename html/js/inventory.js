@@ -576,6 +576,7 @@ $(document).ready(function () {
     // }
     $('.seleziona').find('#arma').hide();
     $('.seleziona').find('#ricarica').hide();
+    $('.seleziona').find('#usableitem').hide();
 
     $('#inventoryOne').on('mouseenter mousedown', '.slot',function(e){
         //InventoryLog(itemData.label);
@@ -584,108 +585,118 @@ $(document).ready(function () {
         //if(e.which == 3){
         var itemData = $(this).find('.item').data('item');
         //InventoryLog(itemData.itemId)
-        if(draggingItem){
-            itemDataD = $(draggingItem).find('.item').data("item");
-        }
-        if(dragging && itemDataD.itemId.startsWith('ammo')){
-            //InventoryLog(itemData.itemId)
-            if(itemData.itemId.startsWith('WEAPON')){
-                //InventoryLog("qua")
-                if(e.which == 3){
-                    $('.seleziona').find('#arma').css({position:'absolute',top:e.pageY, left: e.pageX}).html("Ricarica").slideDown();
-                    
-                    $('#arma').click(function (event, ui){
-                        // if(dragging){ 
-                        itemData = $(draggingItem).find('.item').data("item");
-                        EndDragging();
+        if(itemData != undefined){
+            if(draggingItem){
+                itemDataD = $(draggingItem).find('.item').data("item");
+            }
+            if(dragging && itemDataD.itemId.startsWith('ammo')){
+                //InventoryLog(itemData.itemId)
+                if(itemData.itemId.startsWith('WEAPON')){
+                    //InventoryLog("qua")
+                    if(e.which == 3){
+                        $('.seleziona').find('#arma').css({position:'absolute',top:e.pageY, left: e.pageX}).html("Ricarica").slideDown();
                         
-                        $('.seleziona').find('#arma').hide();
-                        
-                        var itemquantity = itemData.qty
-                        var quantityvalue 
-                        var maxvalue = itemquantity
-                        
-                        var $slider = $('#slider');
-                        
-                        var $spinner = $('input[type=text]').spinner({
-                            min: 1,
-                            max: maxvalue,
-                            //value: 25,
-                            incremental: true,
-                            icons: { down: "ui-icon-triangle-1-s", up: "ui-icon-triangle-1-n" }
-                        });
-                        
-                        $slider.slider({
-                            //range: true,
-                            min: 1,
-                            max: maxvalue,
-                            animate: true,
-                            slide: function(event, ui) {
-                                quantityvalue = ui.value
-                                $spinner.val(ui.value);
-                            }
-                        });
-                        
-                        $spinner.on('spinstop', function(e, ui) {
-                            quantityvalue = $(this).val()
-                            $slider.slider('value', $(this).val());
-                        });
-                        $('.seleziona').find('.ricaricahud').css({position:'absolute',top:'20%',left:'42.5%'}).slideDown();
-                        
-                        function GetQuantity(num) {
-                            if (num == undefined || num > maxvalue || num.toString().startsWith("0")) {
-                                InventoryLog("Inserisci un valore valido");
+                        $('#arma').click(function (event, ui){
+                            // if(dragging){ 
+                            itemData = $(draggingItem).find('.item').data("item");
+                            EndDragging();
+                            
+                            $('.seleziona').find('#arma').hide();
+                            
+                            var itemquantity = itemData.qty
+                            var quantityvalue 
+                            var maxvalue = itemquantity
+                            
+                            var $slider = $('#slider');
+                            
+                            var $spinner = $('input[type=text]').spinner({
+                                min: 1,
+                                max: maxvalue,
+                                //value: 25,
+                                incremental: true,
+                                icons: { down: "ui-icon-triangle-1-s", up: "ui-icon-triangle-1-n" }
+                            });
+                            
+                            $slider.slider({
+                                //range: true,
+                                min: 1,
+                                max: maxvalue,
+                                animate: true,
+                                slide: function(event, ui) {
+                                    quantityvalue = ui.value
+                                    $spinner.val(ui.value);
+                                }
+                            });
+                            
+                            $spinner.on('spinstop', function(e, ui) {
+                                quantityvalue = $(this).val()
+                                $slider.slider('value', $(this).val());
+                            });
+                            $('.seleziona').find('.ricaricahud').css({position:'absolute',top:'20%',left:'42.5%'}).slideDown();
+                            
+                            function GetQuantity(num) {
+                                if (num == undefined || num > maxvalue || num.toString().startsWith("0")) {
+                                    InventoryLog("Inserisci un valore valido");
+                                    return;
+                                }
+                                else{
+                                    InventoryLog("valore corretto");
+                                    $.post("http://disc-inventoryhud/AmmoReload", JSON.stringify({
+                                    owner: $(draggingItem).parent().data('invOwner'),
+                                    slot: $(draggingItem).data('slot'),
+                                    item: itemData,
+                                    quantity: num
+                                }));
+                                //spinner and slider reset for no dupe
+                                quantityvalue = 0;
+                                maxvalue = 1;
+                                $( "#slider" ).slider( "option", "value", 1 );
+                                $( "input[type=text]" ).spinner( "value", 1 );
+                                $('.seleziona').find('.ricaricahud').hide();
                                 return;
+                                }
                             }
-                            else{
-                                InventoryLog("valore corretto");
-                                $.post("http://disc-inventoryhud/AmmoReload", JSON.stringify({
-                                owner: $(draggingItem).parent().data('invOwner'),
-                                slot: $(draggingItem).data('slot'),
-                                item: itemData,
-                                quantity: num
-                            }));
-                            //spinner and slider reset for no dupe
-                            quantityvalue = 0;
-                            maxvalue = 1;
-                            $( "#slider" ).slider( "option", "value", 1 );
-                            $( "input[type=text]" ).spinner( "value", 1 );
-                            $('.seleziona').find('.ricaricahud').hide();
-                            return;
+                        
+                        
+                        
+                        $('#textinput').keypress(function(event){
+                            var keycode = (event.keyCode ? event.keyCode : event.which);
+                            if(keycode == '13'){
+                                //$('#bottone').click();
+                                GetQuantity(quantityvalue);
                             }
-                        }
-                    
-                    
-                    
-                    $('#textinput').keypress(function(event){
-                        var keycode = (event.keyCode ? event.keyCode : event.which);
-                        if(keycode == '13'){
-                            //$('#bottone').click();
+                        });
+                        
+                        $('#bottone').click(function(){
+                            //InventoryLog("Hai premuto bottone");
                             GetQuantity(quantityvalue);
-                        }
-                    });
-                    
-                    $('#bottone').click(function(){
-                        //InventoryLog("Hai premuto bottone");
-                        GetQuantity(quantityvalue);
-                    });
-                    });
+                        });
+                        });
+                    }
                 }
             }
-        }
-        if(itemData.usable && !(itemDataD.itemId.startsWith('WEAPON') || itemDataD.itemId.startsWith('ammo'))){
-            if(e.which == 3){
-                $('.seleziona').find('#usableitem').css({position:'absolute',top:e.pageY, left: e.pageX}).html("Usa").slideDown(); 
-                $('#usableitem').click(function(){
-                    $('.seleziona').find('#usableitem').hide();
-                    InventoryLog('Using ' + itemData.label);
-                    $.post("http://disc-inventoryhud/UseItem", JSON.stringify({
-                    owner: $(draggingItem).parent().data('invOwner'),
-                    slot: $(draggingItem).data('slot'),
-                    item: itemData
-                    }));    
-                });
-            }        
+            if(!dragging){
+                if(itemData.usable && !(itemData.itemId.startsWith('WEAPON') || itemData.itemId.startsWith('ammo'))){
+                    if(e.which == 3){
+                        $('.seleziona').find('#usableitem').css({position:'absolute',top:e.pageY, left: e.pageX}).html("Usa").slideDown(); 
+                        $('#usableitem').click(function(){
+                            $('.seleziona').find('#usableitem').hide();
+
+                            InventoryLog('Using ' + itemData.label + ' and Close ' + itemData.closeUi);
+                            $.post("http://disc-inventoryhud/UseItem", JSON.stringify({
+                            owner: $(this).parent().data('invOwner'),
+                            slot: $(this).data('slot'),
+                            item: itemData
+                            }));
+                            if (itemData.closeUi) {
+                                closeInventory();
+                            }
+                            successAudio.play();
+                            EndDragging();
+                        });
+                    }        
+                }
+            }
         }
     });
     // $('#inventoryOne, #inventoryTwo').on('mouseleave', '.slot', function () {
