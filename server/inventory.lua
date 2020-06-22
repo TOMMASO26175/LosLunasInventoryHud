@@ -683,6 +683,9 @@ end
 
 function createDisplayItem(item, esxItem, slot, price, type)
     local max = 100
+    if esxItem.rare then   --unique
+        max = 1
+    end
     return {
         id = esxItem.name,
         itemId = esxItem.name,
