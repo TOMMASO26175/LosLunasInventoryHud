@@ -104,11 +104,13 @@ end)
 
 function refreshPlayerInventory()
     ESX.TriggerServerCallback('disc-inventoryhud:getPlayerInventory', function(data)
+        print(data.weight)
         SendNUIMessage(
                 { action = "setItems",
                   itemList = data.inventory,
                   invOwner = data.invId,
                   invTier = data.invTier,
+                  weight = data.weight,
                   money = {
                       cash = data.cash,
                       bank = data.bank,
@@ -132,6 +134,7 @@ function refreshSecondaryInventory()
                           itemList = data.inventory,
                           invOwner = data.invId,
                           invTier = data.invTier,
+                          weight = data.weight,
                           money = {
                               cash = data.cash,
                               black_money = data.black_money

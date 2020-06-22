@@ -706,6 +706,7 @@ function createDisplayItem(item, esxItem, slot, price, type)
         price = price or 0,
         needs = false,
         closeUi = getItemDataProperty(esxItem.name, 'closeonuse'),
+        
     }
 end
 

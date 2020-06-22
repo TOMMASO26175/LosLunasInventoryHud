@@ -271,6 +271,16 @@ body {
                     position: absolute;
                     bottom: 0;
                 }
+
+                .peso {
+                    position: absolute;
+                    bottom: 0;
+                }
+
+                .inv-weight {
+                    position: absolute;
+                    bottom: 0;
+                }
         
                 .left-data {
                     width: 100%;
@@ -293,6 +303,14 @@ body {
                 
                     .inv-slots {
                         right: 0;
+                    }
+
+                    .inv-weight {
+                        right: 10%;
+                    }
+                    
+                    .peso {
+                        right: 275%;
                     }
                     
             
@@ -352,6 +370,14 @@ body {
                 
                     .inv-slots {
                         left: 0;
+                    }
+                    
+                    .peso {
+                        left: 150%;
+                    }
+
+                    .inv-weight {
+                        left: 21%;
                     }
 
                     .second-info-div {

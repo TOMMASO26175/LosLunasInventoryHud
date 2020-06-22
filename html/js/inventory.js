@@ -37,10 +37,14 @@ var quantityvalue
 var itemquantity 
 var maxvalue 
 //
+
+//WEIGHT
+var firstWeight = 0
+var secondWeight = 0
+//
 window.addEventListener("message", function (event) {
     if (event.data.action == "display") {
         type = event.data.type;
-
         if (type === "normal") {
             $('#inventoryTwo').parent().hide();
         } else if (type === "secondary") {
@@ -60,7 +64,7 @@ window.addEventListener("message", function (event) {
     } else if (event.data.action == "setItems") {
         firstTier = event.data.invTier;
         originOwner = event.data.invOwner;
-        inventorySetup(event.data.invOwner, event.data.itemList, event.data.money, event.data.invTier);
+        inventorySetup(event.data.invOwner, event.data.itemList, event.data.money, event.data.invTier,event.data.weight);
     } else if (event.data.action == "setSecondInventoryItems") {
         secondTier = event.data.invTier;
         destinationOwner = event.data.invOwner;
@@ -116,12 +120,13 @@ function closeInventory() {
     $.post("http://disc-inventoryhud/NUIFocusOff", JSON.stringify({}));
 }
 
-function inventorySetup(invOwner, items, money, invTier) {
+function inventorySetup(invOwner, items, money, invTier, weight) {
     setupPlayerSlots();
     $('#player-inv-label').html(firstTier.label);
     $('#player-inv-id').html(invOwner);
     $('#inventoryOne').data('invOwner', invOwner);
     $('#inventoryOne').data('invTier', invTier);
+    //InventoryLog(weight)
 
     $('#cash').html('<img src="img/cash.png" class="moneyIcon"> $' + formatCurrency(money.cash));
     $('#bank').html('<img src="img/bank.png" class="moneyIcon"> $' + formatCurrency(money.bank));
@@ -139,6 +144,7 @@ function inventorySetup(invOwner, items, money, invTier) {
     });
 
     $('#player-used').html(firstUsed);
+    $('#player-weight-used').html(weight)
     $("#inventoryOne > .slot:lt(5) .item").append('<div class="item-keybind"></div>');
 
     $('#inventoryOne .item-keybind').each(function (index) {
@@ -482,6 +488,8 @@ $(document).ready(function () {
 
             if (itemData.weight !== undefined) {
                 $('.tooltip-div').find('.tooltip-weight').html('Weight: ' + itemData.weight * itemData.qty);
+                $('.tooltip-div').find('.tooltip-weight').show()
+                //InventoryLog(itemData.weight)
             } else {
                 $('.tooltip-div').find('.tooltip-weight').hide()
             }
@@ -611,11 +619,12 @@ $(document).ready(function () {
 
     $('#inventoryOne').on('mouseenter mousedown', '.slot',function(e){
         //InventoryLog(itemData.label);
-        //InventoryLog(Object.keys(itemData));
         //InventoryLog(itemData.itemId)
         //if(e.which == 3){
         var itemData = $(this).find('.item').data('item');
+        //InventoryLog(Object.keys(itemData));
         //InventoryLog(itemData.itemId)
+        //InventoryLog(itemData.weight)
         if(itemData != undefined){
             if(draggingItem){
                 itemDataD = $(draggingItem).find('.item').data("item");

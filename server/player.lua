@@ -23,11 +23,15 @@ function getPlayerDisplayInventory(identifier, cb)
     local player = ESX.GetPlayerFromIdentifier(identifier)
     getInventory(identifier, 'player', function(inventory)
         local itemsObject = {}
+        local invWeight = 0
 
         for k, v in pairs(inventory) do
             local esxItem = player.getInventoryItem(v.name)
             local item = createDisplayItem(v, esxItem, tonumber(k))
             table.insert(itemsObject, item)
+            if item.weight ~= nil then
+                invWeight = invWeight + tonumber(item.weight)
+            end
         end
 
         local inv = {
@@ -37,6 +41,7 @@ function getPlayerDisplayInventory(identifier, cb)
             cash = player.getMoney(),
             bank = player.getAccount('bank').money,
             black_money = player.getAccount('black_money').money,
+            weight = invWeight
         }
         cb(inv)
     end)
@@ -165,7 +170,7 @@ AddEventHandler('esx:onAddInventoryItem', function(source, esxItem, count)
             end
         end
         local item = createItem(esxItem.name, count)
-        addToInventory(item, 'player', inventory, esxItem.limit)
+        addToInventory(item, 'player', inventory, esxItem.weight)
         TriggerClientEvent('disc-inventoryhud:refreshInventory', source)
     end)
 end)
