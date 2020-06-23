@@ -66,6 +66,9 @@ AddEventHandler("disc-inventoryhud:MoveToEmpty", function(data)
         originInvHandler.applyToInventory(data.originOwner, function(inventory)
             inventory[tostring(data.destinationSlot)] = inventory[tostring(data.originSlot)]
             inventory[tostring(data.originSlot)] = nil
+            -- for key,value in pairs(inventory[tostring(data.destinationSlot)]) do
+            --     print("found member " .. key);
+            -- end
             --originInvHandler.saveInventory(data.originOwner, originInventory)
 
             TriggerEvent('disc-inventoryhud:refreshInventory', data.originOwner)
@@ -680,12 +683,20 @@ function AddToEmpty(item, type, inventory, count)
     print('Inventory Overflow!')
     return 0
 end
-
+local staticMetadata = {}
 function createDisplayItem(item, esxItem, slot, price, type)
     local max = 100
     if esxItem.rare then   --unique
         max = 1
     end
+    -- if isWeapon(esxItem.name) and staticMetadata[esxItem.name][slot] == nil then
+    --     staticMetadata[esxItem.name][slot] = {
+    --         serial = tostring(Config.RandomInt(2) .. Config.RandomStr(3) .. Config.RandomInt(1) .. Config.RandomStr(2) .. Config.RandomInt(3) .. Config.RandomStr(4)),
+    --         accessories = {},
+    --         durability = 100,
+    --         ammo = 0
+    --     }
+    -- end
     return {
         id = esxItem.name,
         itemId = esxItem.name,

@@ -8,6 +8,30 @@ Config.HotKeyCooldown = 1000
 Config.CheckLicense = true
 Config.MaxWeight = 100
 
+
+local StringCharset = {}
+local NumberCharset = {}
+
+for i = 48,  57 do table.insert(NumberCharset, string.char(i)) end
+for i = 65,  90 do table.insert(StringCharset, string.char(i)) end
+for i = 97, 122 do table.insert(StringCharset, string.char(i)) end
+
+Config.RandomStr = function(length)
+	if length > 0 then
+		return Config.RandomStr(length-1) .. StringCharset[math.random(1, #StringCharset)]
+	else
+		return ''
+	end
+end
+
+Config.RandomInt = function(length)
+	if length > 0 then
+		return Config.RandomInt(length-1) .. NumberCharset[math.random(1, #NumberCharset)]
+	else
+		return ''
+	end
+end
+
 Config.Shops = {
     ['TwentyFourSeven'] = {
         coords = {
