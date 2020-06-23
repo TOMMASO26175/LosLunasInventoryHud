@@ -64,7 +64,7 @@ window.addEventListener("message", function (event) {
     } else if (event.data.action == "setItems") {
         firstTier = event.data.invTier;
         originOwner = event.data.invOwner;
-        inventorySetup(event.data.invOwner, event.data.itemList, event.data.money, event.data.invTier,event.data.weight);
+        inventorySetup(event.data.invOwner, event.data.itemList, event.data.money, event.data.invTier,event.data.weight, event.data.maxweight);
     } else if (event.data.action == "setSecondInventoryItems") {
         secondTier = event.data.invTier;
         destinationOwner = event.data.invOwner;
@@ -120,7 +120,7 @@ function closeInventory() {
     $.post("http://disc-inventoryhud/NUIFocusOff", JSON.stringify({}));
 }
 
-function inventorySetup(invOwner, items, money, invTier, weight) {
+function inventorySetup(invOwner, items, money, invTier, weight, maxweight) {
     setupPlayerSlots();
     $('#player-inv-label').html(firstTier.label);
     $('#player-inv-id').html(invOwner);
@@ -143,6 +143,7 @@ function inventorySetup(invOwner, items, money, invTier, weight) {
         AddItemToSlot(slot, item);
     });
 
+    $('#player-weight-max').html(maxweight)
     $('#player-used').html(firstUsed);
     $('#player-weight-used').html(weight)
     $("#inventoryOne > .slot:lt(5) .item").append('<div class="item-keybind"></div>');
@@ -214,6 +215,10 @@ function setupSecondarySlots(owner,itype) {
 
         $('#inventoryTwo').find('.slot-template').removeClass('slot-template');
     }
+}
+
+function UpdateMaxWeight(weight) {
+    $('#player-weight-max').html(weight)
 }
 
 document.addEventListener('mousemove', function (event) {

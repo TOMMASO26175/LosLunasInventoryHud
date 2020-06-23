@@ -104,13 +104,14 @@ end)
 
 function refreshPlayerInventory()
     ESX.TriggerServerCallback('disc-inventoryhud:getPlayerInventory', function(data)
-        print(data.weight)
+        --print(data.weight)
         SendNUIMessage(
                 { action = "setItems",
                   itemList = data.inventory,
                   invOwner = data.invId,
                   invTier = data.invTier,
                   weight = data.weight,
+                  maxweight = Config.MaxWeight,
                   money = {
                       cash = data.cash,
                       bank = data.bank,

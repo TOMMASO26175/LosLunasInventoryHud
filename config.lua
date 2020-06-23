@@ -6,6 +6,7 @@ Config.TrunkOpenControl = 47
 Config.DeleteDropsOnStart = true
 Config.HotKeyCooldown = 1000
 Config.CheckLicense = true
+Config.MaxWeight = 100
 
 Config.Shops = {
     ['TwentyFourSeven'] = {
