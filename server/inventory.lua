@@ -632,7 +632,7 @@ function removeItemFromInventory(item, count, inventory)
 end
 
 function addToInventory(item, type, inventory, max)
-    if max == -1 then
+    if max == -1 then   --NEED TO FIX THIS
 		max = 9999
 	end
     local toAdd = item.count
@@ -697,6 +697,9 @@ function createDisplayItem(item, esxItem, slot, price, type)
     --         ammo = 0
     --     }
     -- end
+    -- for key,value in pairs(esxItem) do
+    --     print("found member " .. key);
+    --     end
     return {
         id = esxItem.name,
         itemId = esxItem.name,
@@ -712,7 +715,7 @@ function createDisplayItem(item, esxItem, slot, price, type)
         description = getItemDataProperty(esxItem.name, 'description'),
         weight = getItemDataProperty(esxItem.name, 'weight'),
         metadata = {},
-        staticMeta = {},
+        staticMeta = item.metadata,
         canRemove = esxItem.canRemove,
         price = price or 0,
         needs = false,
@@ -721,8 +724,8 @@ function createDisplayItem(item, esxItem, slot, price, type)
     }
 end
 
-function createItem(name, count)
-    return { name = name, count = count }
+function createItem(name, count, meta)
+    return { name = name, count = count, metadata = meta }  --item
 end
 
 ESX.RegisterServerCallback('disc-inventoryhud:canOpenInventory', function(source, cb, type, identifier)

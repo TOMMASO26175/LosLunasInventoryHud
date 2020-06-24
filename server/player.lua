@@ -94,6 +94,21 @@ AddEventHandler('disc-inventoryhud:ricaricaammo', function(item, count, playerSo
     end)
 end)
 
+RegisterServerEvent('disc-inventoryhud:testmetadata')
+AddEventHandler('disc-inventoryhud:testmetadata', function(item, count, playerSource)
+    local _source = playerSource or source
+    if impendingRemovals[_source] == nil then
+        impendingRemovals[_source] = {}
+    end
+    item.count = count
+    local k = #impendingRemovals + 1
+    impendingRemovals[_source][k] = item
+    Citizen.CreateThread(function()
+        Citizen.Wait(100)
+        impendingRemovals[k] = nil
+    end)
+end)
+
 -- RegisterServerEvent('ls:ricarica')
 -- AddEventHandler('ls:ricarica', function(itemName)
 -- 	local xPlayer = ESX.GetPlayerFromId(source)
@@ -111,12 +126,13 @@ end)
 -- end
 
 RegisterServerEvent('disc-inventoryhud:notifyImpendingAddition')
-AddEventHandler('disc-inventoryhud:notifyImpendingAddition', function(item, count, playerSource)
+AddEventHandler('disc-inventoryhud:notifyImpendingAddition', function(item, count, metaData, playerSource)
     local _source = playerSource or source
     if impendingAdditions[_source] == nil then
         impendingAdditions[_source] = {}
     end
     item.count = count
+    item.meta = metaData
     local k = #impendingAdditions + 1
     impendingAdditions[_source][k] = item
     Citizen.CreateThread(function()
@@ -130,6 +146,7 @@ AddEventHandler('esx:onRemoveInventoryItem', function(source, item, count)
     -- TriggerClientEvent('disc-inventoryhud:showItemUse', source, {    --in futuro fare un controllo se l item è utilizzabile e se lo è non fare questo se no si
     --     { id = item.name, label = item.label, qty = count, msg = _U('removed') }
     -- })
+    print("RIMUOVO")
     applyToInventory(player.identifier, 'player', function(inventory)
         if impendingRemovals[source] then
             for k, removingItem in pairs(impendingRemovals[source]) do
@@ -157,6 +174,7 @@ AddEventHandler('esx:onAddInventoryItem', function(source, esxItem, count)
     TriggerClientEvent('disc-inventoryhud:showItemUse', source, {
         { id = esxItem.name, label = esxItem.label, qty = count, msg = _U('added') }
     })
+    print("sto aggiungendo")
     applyToInventory(player.identifier, 'player', function(inventory)
         if impendingAdditions[source] then
             for k, addingItem in pairs(impendingAdditions[source]) do
@@ -169,7 +187,17 @@ AddEventHandler('esx:onAddInventoryItem', function(source, esxItem, count)
                 end
             end
         end
-        local item = createItem(esxItem.name, count)
+        if isWeapon(esxItem.name) and esxItem.meta == nil or next(esxItem.meta) == nil then
+            print("creo metadata")
+            esxItem.meta = {
+            serial = tostring(Config.RandomInt(2) .. Config.RandomStr(3) .. Config.RandomInt(1) .. Config.RandomStr(2) .. Config.RandomInt(3) .. Config.RandomStr(4)),
+            -- accessories = {},
+            -- durability = 400,
+            -- maxdurability = 400,
+            -- ammo = 0
+            }
+        end
+        local item = createItem(esxItem.name, count, esxItem.meta)
         addToInventory(item, 'player', inventory, esxItem.weight)
         TriggerClientEvent('disc-inventoryhud:refreshInventory', source)
     end)

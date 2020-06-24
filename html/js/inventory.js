@@ -500,8 +500,8 @@ $(document).ready(function () {
             }
 
             if (itemData.staticMeta !== undefined || itemData.staticMeta !== "") {
-                if (itemData.type === 1) {
-                    $('.tooltip-div').find('.tooltip-meta').append('<div class="meta-entry"><div class="meta-key">Registered Owner</div> : <div class="meta-val">' + itemData.staticMeta.owner + '</div></div>');
+                if (itemData.staticMeta) {
+                    $('.tooltip-div').find('.tooltip-meta').append('<div class="meta-entry"><div class="meta-key">Weapon Serial</div> : <div class="meta-val">' + itemData.staticMeta.serial + '</div></div>');
                 } else if (itemData.itemId === 'license') {
                     $('.tooltip-div').find('.tooltip-meta').append('<div class="meta-entry"><div class="meta-key">Name</div> : <div class="meta-val">' + itemData.staticMeta.name + '</div></div>');
                     $('.tooltip-div').find('.tooltip-meta').append('<div class="meta-entry"><div class="meta-key">Issued On</div> : <div class="meta-val">' + itemData.staticMeta.issuedDate + '</div></div>');
