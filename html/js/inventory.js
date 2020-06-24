@@ -500,7 +500,7 @@ $(document).ready(function () {
             }
 
             if (itemData.staticMeta !== undefined || itemData.staticMeta !== "") {
-                if (itemData.staticMeta) {
+                if (itemData.staticMeta && itemData.itemId.startsWith("WEAPON")) {
                     $('.tooltip-div').find('.tooltip-meta').append('<div class="meta-entry"><div class="meta-key">Weapon Serial</div> : <div class="meta-val">' + itemData.staticMeta.serial + '</div></div>');
                 } else if (itemData.itemId === 'license') {
                     $('.tooltip-div').find('.tooltip-meta').append('<div class="meta-entry"><div class="meta-key">Name</div> : <div class="meta-val">' + itemData.staticMeta.name + '</div></div>');

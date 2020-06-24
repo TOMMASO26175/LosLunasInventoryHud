@@ -187,7 +187,7 @@ AddEventHandler('esx:onAddInventoryItem', function(source, esxItem, count)
                 end
             end
         end
-        if isWeapon(esxItem.name) and esxItem.meta == nil or next(esxItem.meta) == nil then
+        if isWeapon(esxItem.name) and esxItem.meta == nil then--or next(esxItem.meta) == nil
             print("creo metadata")
             esxItem.meta = {
             serial = tostring(Config.RandomInt(2) .. Config.RandomStr(3) .. Config.RandomInt(1) .. Config.RandomStr(2) .. Config.RandomInt(3) .. Config.RandomStr(4)),
