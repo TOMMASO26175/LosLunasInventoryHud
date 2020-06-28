@@ -26,7 +26,7 @@ function getPlayerDisplayInventory(identifier, cb)
         local invWeight = 0
 
         for k, v in pairs(inventory) do
-            local esxItem = player.getInventoryItem(v.name)
+            local esxItem = player.getItem(v.name)
             local item = createDisplayItem(v, esxItem, tonumber(k))
             table.insert(itemsObject, item)
             if item.weight ~= nil then
@@ -171,8 +171,11 @@ end)
 AddEventHandler('esx:onAddInventoryItem', function(source, esxItem, count)
     additionLocked = true
     local player = ESX.GetPlayerFromId(source)
+    for k,v in pairs(esxItem.metadata) do
+        print(k..v)
+    end
     TriggerClientEvent('disc-inventoryhud:showItemUse', source, {
-        { id = esxItem.name, label = esxItem.label, qty = count, msg = _U('added') }
+        { id = esxItem.name, label = next(esxItem.metadata) == nil, qty = count, msg = _U('added') }
     })
     print("sto aggiungendo")
     applyToInventory(player.identifier, 'player', function(inventory)
@@ -187,17 +190,20 @@ AddEventHandler('esx:onAddInventoryItem', function(source, esxItem, count)
                 end
             end
         end
-        if isWeapon(esxItem.name) and esxItem.meta == nil then--or next(esxItem.meta) == nil
-            print("creo metadata")
-            esxItem.meta = {
-            serial = tostring(Config.RandomInt(2) .. Config.RandomStr(3) .. Config.RandomInt(1) .. Config.RandomStr(2) .. Config.RandomInt(3) .. Config.RandomStr(4)),
-            -- accessories = {},
-            -- durability = 400,
-            -- maxdurability = 400,
-            -- ammo = 0
-            }
+        --print(esxItem.name)
+        if esxItem.metadata ~= nil then
+            if isWeapon(esxItem.name) and next(esxItem.metadata) == nil then--or next(esxItem.meta) == nil
+                print("creo metadata")
+                esxItem.metadata = {
+                serial = tostring(Config.RandomInt(2) .. Config.RandomStr(3) .. Config.RandomInt(1) .. Config.RandomStr(2) .. Config.RandomInt(3) .. Config.RandomStr(4)),
+                -- accessories = {},
+                -- durability = 400,
+                -- maxdurability = 400,
+                -- ammo = 0
+                }
+            end
         end
-        local item = createItem(esxItem.name, count, esxItem.meta)
+        local item = createItem(esxItem.name, count, esxItem.metadata)
         addToInventory(item, 'player', inventory, esxItem.weight)
         TriggerClientEvent('disc-inventoryhud:refreshInventory', source)
     end)

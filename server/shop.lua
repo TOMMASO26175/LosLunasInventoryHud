@@ -34,7 +34,7 @@ function getShopDisplayInventory(identifier, cb, source)
         local itemsObject = {}
 
         for k, v in pairs(inventory) do
-            local esxItem = player.getInventoryItem(v.name)
+            local esxItem = player.getItem(v.name)
             local item = createDisplayItem(v, esxItem, tonumber(k), v.price)
             local addItem = true
             if v.grade ~= nil then

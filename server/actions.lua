@@ -2,7 +2,12 @@ ESX.RegisterServerCallback('disc-inventoryhud:UseItemFromSlot', function(source,
     local player = ESX.GetPlayerFromId(source)
     InvType['player'].getInventory(player.identifier, function(inventory)
         if inventory[tostring(slot)] then
-            local esxItem = player.getInventoryItem(inventory[tostring(slot)].name)
+            print(inventory[tostring(slot)].name)
+            local esxItem = player.getItem(inventory[tostring(slot)].name)
+            for k,v in pairs(esxItem) do
+                print(k)
+                print(v)
+            end
             local isammo = esxItem.name:find("^ammo") ~= nil
             if esxItem.usable and not isammo then
                 cb(createDisplayItem(inventory[tostring(slot)], esxItem, slot))

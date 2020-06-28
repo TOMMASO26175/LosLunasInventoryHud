@@ -697,9 +697,9 @@ function createDisplayItem(item, esxItem, slot, price, type)
     --         ammo = 0
     --     }
     -- end
-    -- for key,value in pairs(esxItem) do
-    --     print("found member " .. key);
-    --     end
+    --  for key,value in pairs(esxItem) do
+    --      print("found member " .. key);
+    -- end
     return {
         id = esxItem.name,
         itemId = esxItem.name,
@@ -862,7 +862,7 @@ function getDisplayInventory(identifier, type, cb, source)
 
         for k, v in pairs(inventory) do
             if k ~= 'cash' and k ~= 'black_money' then
-                local esxItem = player.getInventoryItem(v.name)
+                local esxItem = player.getItem(v.name)
                 local item = createDisplayItem(v, esxItem, tonumber(k))
                 item.usable = false
                 item.giveable = false
@@ -987,3 +987,41 @@ function handleRadioRemoval(data, source)
 		end
 	end
 end
+
+RegisterCommand("test", function (source)
+    local player = ESX.GetPlayerFromId(source)
+    MySQL.Async.fetchAll('SELECT data FROM disc_inventory WHERE owner = @identifier',{
+        ['@identifier'] = player.identifier
+    },function (results)
+        -- for k,_ in ipairs(results) do
+        --     local obj = json.parse(results[k])
+        --     print(obj.count)
+        --     print(obj.name)
+        --     print(obj.meta)
+        -- end
+        for k,v in pairs(results) do
+
+            for k1,v1 in pairs(v) do
+
+                local obj = (json.decode(v1))
+
+                for key,value in pairs(obj) do
+                    print("////")
+                    for objk,objv in pairs(value) do
+        
+                        if type(objv) == "table" then
+                            print("TABLE:INSIDE:")
+                            for dk,dv in pairs(objv) do
+                                print(dk..":"..dv)
+                            end
+                        else
+                            print(objk ..":"..objv)
+                        end
+
+                    end
+
+                end
+            end
+        end
+    end)
+end, false)
