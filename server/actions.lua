@@ -27,7 +27,7 @@ ESX.RegisterServerCallback('disc-inventoryhud:GetItemsInSlotsDisplay', function(
         for i = 1, 5, 1 do
             local item = inventory[tostring(i)]
             if item then
-                local esxItem = player.getInventoryItem(item.name)
+                local esxItem = player.getItem(item.name)
                 slotItems[i] = {
                     itemId = item.name,
                     label = esxItem.label,

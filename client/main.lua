@@ -63,6 +63,18 @@ RegisterCommand('closeinv', function(source, args, raw)
     closeInventory()
 end)
 
+RegisterCommand('esxinv', function()
+    for k,v in ipairs(ESX.PlayerData.inventory) do
+        print(k)
+        if type(v) == "table" then
+            for k1,v1 in pairs(v) do
+                print(k1)
+                print(v1)
+            end
+        end
+    end
+end, false)
+
 Citizen.CreateThread(function()
     while not IsLoaded do
         Citizen.Wait(10)
