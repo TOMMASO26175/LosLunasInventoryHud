@@ -64,13 +64,12 @@ RegisterCommand('closeinv', function(source, args, raw)
 end)
 
 RegisterCommand('esxinv', function()
-    for k,v in ipairs(ESX.PlayerData.inventory) do
+    local slots = {}
+    for k,v in pairs(ESX.PlayerData.inventory) do
         print(k)
-        if type(v) == "table" then
-            for k1,v1 in pairs(v) do
-                print(k1)
-                print(v1)
-            end
+        print("VALUE")
+        for k1,v1 in pairs(v) do
+            print(v1)
         end
     end
 end, false)
