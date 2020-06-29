@@ -200,6 +200,7 @@ AddEventHandler('esx:onAddInventoryItem', function(source, esxItem, count)
                 -- durability = 400,
                 -- maxdurability = 400,
                 -- ammo = 0
+                
                 }
             end
         end
