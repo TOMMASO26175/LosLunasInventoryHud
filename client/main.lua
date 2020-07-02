@@ -68,9 +68,9 @@ RegisterCommand('esxinv', function()
     for k,v in pairs(ESX.PlayerData.inventory) do
         print(k)
         print("VALUE")
-        for k1,v1 in pairs(v) do
-            print(v1)
-        end
+        -- for k1,v1 in pairs(v) do
+        --      print(v1)
+        --  end
     end
 end, false)
 
